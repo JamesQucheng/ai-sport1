@@ -1,0 +1,57 @@
+Index: .idea/workspace.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<project version=\"4\">\r\n  <component name=\"AutoImportSettings\">\r\n    <option name=\"autoReloadType\" value=\"SELECTIVE\" />\r\n  </component>\r\n  <component name=\"ChangeListManager\">\r\n    <list default=\"true\" id=\"ee5dae3e-e9e3-4093-ac99-661b8d33db00\" name=\"Changes\" comment=\"\">\r\n      <change afterPath=\"$PROJECT_DIR$/ai-workout-vue/public/mock/push-up-mock.mp4\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/.idea/workspace.xml\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/.idea/workspace.xml\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/ai-workout-vue/public/mock/mock-video1.mp4\" beforeDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/ai-workout-vue/public/mock/mock-video2.mp4\" beforeDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/ai-workout-vue/public/mock/mock-video3.mp4\" beforeDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/ai-workout-vue/src/components/WorkoutInterface.vue\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/ai-workout-vue/src/components/WorkoutInterface.vue\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/ai-workout-vue/src/components/WorkoutMain.vue\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/ai-workout-vue/src/components/WorkoutMain.vue\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/ai-workout-vue/src/composables/useAIDetection.ts\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/ai-workout-vue/src/composables/useAIDetection.ts\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/backend/src/app.js\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/backend/src/app.js\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/todo.md\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/todo.md\" afterDir=\"false\" />\r\n    </list>\r\n    <option name=\"SHOW_DIALOG\" value=\"false\" />\r\n    <option name=\"HIGHLIGHT_CONFLICTS\" value=\"true\" />\r\n    <option name=\"HIGHLIGHT_NON_ACTIVE_CHANGELIST\" value=\"false\" />\r\n    <option name=\"LAST_RESOLUTION\" value=\"IGNORE\" />\r\n  </component>\r\n  <component name=\"Git.Settings\">\r\n    <option name=\"RECENT_GIT_ROOT_PATH\" value=\"$PROJECT_DIR$\" />\r\n  </component>\r\n  <component name=\"ProjectColorInfo\">{\r\n  &quot;associatedIndex&quot;: 0\r\n}</component>\r\n  <component name=\"ProjectId\" id=\"31P5OXe6vGZqugVFH7ECW476AO9\" />\r\n  <component name=\"ProjectLevelVcsManager\" settingsEditedManually=\"true\" />\r\n  <component name=\"ProjectViewState\">\r\n    <option name=\"hideEmptyMiddlePackages\" value=\"true\" />\r\n    <option name=\"showLibraryContents\" value=\"true\" />\r\n  </component>\r\n  <component name=\"PropertiesComponent\"><![CDATA[{\r\n  \"keyToString\": {\r\n    \"RunOnceActivity.ShowReadmeOnStart\": \"true\",\r\n    \"RunOnceActivity.git.unshallow\": \"true\",\r\n    \"git-widget-placeholder\": \"master\",\r\n    \"ignore.virus.scanning.warn.message\": \"true\",\r\n    \"last_opened_file_path\": \"E:/local-project/ai-sport/ai-workout-vue/public/mock\",\r\n    \"node.js.detected.package.eslint\": \"true\",\r\n    \"node.js.detected.package.tslint\": \"true\",\r\n    \"node.js.selected.package.eslint\": \"(autodetect)\",\r\n    \"node.js.selected.package.tslint\": \"(autodetect)\",\r\n    \"nodejs_package_manager_path\": \"npm\",\r\n    \"ts.external.directory.path\": \"E:\\\\local-project\\\\ai-sport\\\\ai-workout-vue\\\\node_modules\\\\typescript\\\\lib\",\r\n    \"vue.rearranger.settings.migration\": \"true\"\r\n  }\r\n}]]></component>\r\n  <component name=\"RecentsManager\">\r\n    <key name=\"CopyFile.RECENT_KEYS\">\r\n      <recent name=\"E:\\local-project\\ai-sport\\ai-workout-vue\\public\\mock\" />\r\n      <recent name=\"E:\\project\\ai-sport\\ai-workout-vue\\public\\audio\" />\r\n    </key>\r\n  </component>\r\n  <component name=\"SharedIndexes\">\r\n    <attachedChunks>\r\n      <set>\r\n        <option value=\"bundled-js-predefined-d6986cc7102b-e768b9ed790e-JavaScript-WS-243.21565.180\" />\r\n      </set>\r\n    </attachedChunks>\r\n  </component>\r\n  <component name=\"SpellCheckerSettings\" RuntimeDictionaries=\"0\" Folders=\"0\" CustomDictionaries=\"0\" DefaultDictionary=\"application-level\" UseSingleDictionary=\"true\" transferred=\"true\" />\r\n  <component name=\"TaskManager\">\r\n    <task active=\"true\" id=\"Default\" summary=\"Default task\">\r\n      <changelist id=\"ee5dae3e-e9e3-4093-ac99-661b8d33db00\" name=\"Changes\" comment=\"\" />\r\n      <created>1755412835487</created>\r\n      <option name=\"number\" value=\"Default\" />\r\n      <option name=\"presentableId\" value=\"Default\" />\r\n      <updated>1755412835487</updated>\r\n      <workItem from=\"1755412836639\" duration=\"9216000\" />\r\n      <workItem from=\"1755526566434\" duration=\"5417000\" />\r\n      <workItem from=\"1755567010226\" duration=\"13576000\" />\r\n      <workItem from=\"1755696735655\" duration=\"6128000\" />\r\n    </task>\r\n    <servers />\r\n  </component>\r\n  <component name=\"TypeScriptGeneratedFilesManager\">\r\n    <option name=\"version\" value=\"3\" />\r\n  </component>\r\n  <component name=\"Vcs.Log.Tabs.Properties\">\r\n    <option name=\"TAB_STATES\">\r\n      <map>\r\n        <entry key=\"MAIN\">\r\n          <value>\r\n            <State />\r\n          </value>\r\n        </entry>\r\n      </map>\r\n    </option>\r\n  </component>\r\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/workspace.xml b/.idea/workspace.xml
+--- a/.idea/workspace.xml	(revision fc9f615c3c18ae5916653847b6fc2116e86ff3cd)
++++ b/.idea/workspace.xml	(date 1755824707241)
+@@ -4,17 +4,8 @@
+     <option name="autoReloadType" value="SELECTIVE" />
+   </component>
+   <component name="ChangeListManager">
+-    <list default="true" id="ee5dae3e-e9e3-4093-ac99-661b8d33db00" name="Changes" comment="">
+-      <change afterPath="$PROJECT_DIR$/ai-workout-vue/public/mock/push-up-mock.mp4" afterDir="false" />
++    <list default="true" id="ee5dae3e-e9e3-4093-ac99-661b8d33db00" name="Changes" comment="2025-08-21 18:00">
+       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/ai-workout-vue/public/mock/mock-video1.mp4" beforeDir="false" />
+-      <change beforePath="$PROJECT_DIR$/ai-workout-vue/public/mock/mock-video2.mp4" beforeDir="false" />
+-      <change beforePath="$PROJECT_DIR$/ai-workout-vue/public/mock/mock-video3.mp4" beforeDir="false" />
+-      <change beforePath="$PROJECT_DIR$/ai-workout-vue/src/components/WorkoutInterface.vue" beforeDir="false" afterPath="$PROJECT_DIR$/ai-workout-vue/src/components/WorkoutInterface.vue" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/ai-workout-vue/src/components/WorkoutMain.vue" beforeDir="false" afterPath="$PROJECT_DIR$/ai-workout-vue/src/components/WorkoutMain.vue" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/ai-workout-vue/src/composables/useAIDetection.ts" beforeDir="false" afterPath="$PROJECT_DIR$/ai-workout-vue/src/composables/useAIDetection.ts" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/backend/src/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/app.js" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/todo.md" beforeDir="false" afterPath="$PROJECT_DIR$/todo.md" afterDir="false" />
+     </list>
+     <option name="SHOW_DIALOG" value="false" />
+     <option name="HIGHLIGHT_CONFLICTS" value="true" />
+@@ -75,6 +66,15 @@
+       <workItem from="1755567010226" duration="13576000" />
+       <workItem from="1755696735655" duration="6128000" />
+     </task>
++    <task id="LOCAL-00001" summary="2025-08-21 18:00">
++      <option name="closed" value="true" />
++      <created>1755770139812</created>
++      <option name="number" value="00001" />
++      <option name="presentableId" value="LOCAL-00001" />
++      <option name="project" value="LOCAL" />
++      <updated>1755770139812</updated>
++    </task>
++    <option name="localTasksCounter" value="2" />
+     <servers />
+   </component>
+   <component name="TypeScriptGeneratedFilesManager">
+@@ -91,4 +91,10 @@
+       </map>
+     </option>
+   </component>
++  <component name="VcsManagerConfiguration">
++    <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
++    <option name="CHECK_NEW_TODO" value="false" />
++    <MESSAGE value="2025-08-21 18:00" />
++    <option name="LAST_COMMIT_MESSAGE" value="2025-08-21 18:00" />
++  </component>
+ </project>
+\ No newline at end of file

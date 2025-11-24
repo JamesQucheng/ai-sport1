@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="ee5dae3e-e9e3-4093-ac99-661b8d33db00" name="Changes" comment="2025-08-25 23:00">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/LOCAL_DEVELOPMENT.md" beforeDir="false" afterPath="$PROJECT_DIR$/LOCAL_DEVELOPMENT.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SYSTEM_OVERVIEW.md" beforeDir="false" afterPath="$PROJECT_DIR$/SYSTEM_OVERVIEW.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/.env" beforeDir="false" afterPath="$PROJECT_DIR$/backend/.env" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="master" />
+      </map>
+    </option>
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 0
+}</component>
+  <component name="ProjectId" id="31P5OXe6vGZqugVFH7ECW476AO9" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "git-widget-placeholder": "dev-0822",
+    "ignore.virus.scanning.warn.message": "true",
+    "last_opened_file_path": "E:/project/ai-sport/ai-workout-vue/public/tfjs-model/movenet/lightning",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "ts.external.directory.path": "E:\\project\\ai-sport\\ai-workout-vue\\node_modules\\typescript\\lib",
+    "vue.rearranger.settings.migration": "true"
+  }
+}]]></component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="E:\project\ai-sport\ai-workout-vue\public\tfjs-model\movenet\lightning" />
+      <recent name="E:\project\ai-sport" />
+      <recent name="E:\local-project\ai-sport\ai-workout-vue\public\mock" />
+      <recent name="E:\project\ai-sport\ai-workout-vue\public\audio" />
+    </key>
+  </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-js-predefined-d6986cc7102b-e768b9ed790e-JavaScript-WS-243.21565.180" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="ee5dae3e-e9e3-4093-ac99-661b8d33db00" name="Changes" comment="" />
+      <created>1755412835487</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1755412835487</updated>
+      <workItem from="1755412836639" duration="9216000" />
+      <workItem from="1755526566434" duration="5417000" />
+      <workItem from="1755567010226" duration="13576000" />
+      <workItem from="1755696735655" duration="6128000" />
+      <workItem from="1755785978441" duration="4253000" />
+      <workItem from="1756128478409" duration="7164000" />
+    </task>
+    <task id="LOCAL-00001" summary="2025-08-25 23:00">
+      <option name="closed" value="true" />
+      <created>1756136058105</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1756136058105</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
+    <option name="CHECK_NEW_TODO" value="false" />
+    <MESSAGE value="2025-08-22 16:45" />
+    <MESSAGE value="2025-08-22 18:00" />
+    <MESSAGE value="2025-08-25 23:00" />
+    <option name="LAST_COMMIT_MESSAGE" value="2025-08-25 23:00" />
+  </component>
+</project>

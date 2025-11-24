@@ -1,0 +1,108 @@
+Index: .idea/workspace.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<project version=\"4\">\r\n  <component name=\"AutoImportSettings\">\r\n    <option name=\"autoReloadType\" value=\"SELECTIVE\" />\r\n  </component>\r\n  <component name=\"ChangeListManager\">\r\n    <list default=\"true\" id=\"ee5dae3e-e9e3-4093-ac99-661b8d33db00\" name=\"Changes\" comment=\"\">\r\n      <change afterPath=\"$PROJECT_DIR$/ai-workout-vue/public/mock/mock-video.mp4\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/.idea/workspace.xml\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/.idea/workspace.xml\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/ai-workout-vue/src/App.vue\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/ai-workout-vue/src/App.vue\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/ai-workout-vue/src/components/WorkoutInterface.vue\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/ai-workout-vue/src/components/WorkoutInterface.vue\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/ai-workout-vue/src/components/WorkoutMain.vue\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/ai-workout-vue/src/components/WorkoutMain.vue\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/ai-workout-vue/src/components/WorkoutSelector.vue\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/ai-workout-vue/src/components/WorkoutSelector.vue\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/ai-workout-vue/src/composables/useAudio.ts\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/ai-workout-vue/src/composables/useAudio.ts\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/ai-workout-vue/src/composables/useAuth.ts\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/ai-workout-vue/src/composables/useAuth.ts\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/ai-workout-vue/src/composables/useCounter.ts\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/ai-workout-vue/src/composables/useCounter.ts\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/ai-workout-vue/src/composables/useWorkoutCounter.ts\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/ai-workout-vue/src/composables/useWorkoutCounter.ts\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/ai-workout-vue/src/router/index.ts\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/ai-workout-vue/src/router/index.ts\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/ai-workout-vue/src/views/HomeView.vue\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/ai-workout-vue/src/views/HomeView.vue\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/ai-workout-vue/src/views/LoginView.vue\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/ai-workout-vue/src/views/LoginView.vue\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/ai-workout-vue/src/views/ProfileView.vue\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/ai-workout-vue/src/views/ProfileView.vue\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/ai-workout-vue/src/views/WorkoutHistoryView.vue\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/ai-workout-vue/src/views/WorkoutHistoryView.vue\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/ai-workout-vue/src/views/WorkoutView.vue\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/ai-workout-vue/src/views/WorkoutView.vue\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/ai-workout-vue/vite.config.ts\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/ai-workout-vue/vite.config.ts\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/backend/src/models/Workout.js\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/backend/src/models/Workout.js\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/backend/src/routes/users.js\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/backend/src/routes/users.js\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/backend/src/routes/workouts.js\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/backend/src/routes/workouts.js\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/todo.md\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/todo.md\" afterDir=\"false\" />\r\n    </list>\r\n    <option name=\"SHOW_DIALOG\" value=\"false\" />\r\n    <option name=\"HIGHLIGHT_CONFLICTS\" value=\"true\" />\r\n    <option name=\"HIGHLIGHT_NON_ACTIVE_CHANGELIST\" value=\"false\" />\r\n    <option name=\"LAST_RESOLUTION\" value=\"IGNORE\" />\r\n  </component>\r\n  <component name=\"Git.Settings\">\r\n    <option name=\"RECENT_GIT_ROOT_PATH\" value=\"$PROJECT_DIR$\" />\r\n  </component>\r\n  <component name=\"ProjectColorInfo\">{\r\n  &quot;associatedIndex&quot;: 0\r\n}</component>\r\n  <component name=\"ProjectId\" id=\"31P5OXe6vGZqugVFH7ECW476AO9\" />\r\n  <component name=\"ProjectLevelVcsManager\" settingsEditedManually=\"true\" />\r\n  <component name=\"ProjectViewState\">\r\n    <option name=\"hideEmptyMiddlePackages\" value=\"true\" />\r\n    <option name=\"showLibraryContents\" value=\"true\" />\r\n  </component>\r\n  <component name=\"PropertiesComponent\"><![CDATA[{\r\n  \"keyToString\": {\r\n    \"RunOnceActivity.ShowReadmeOnStart\": \"true\",\r\n    \"RunOnceActivity.git.unshallow\": \"true\",\r\n    \"git-widget-placeholder\": \"master\",\r\n    \"ignore.virus.scanning.warn.message\": \"true\",\r\n    \"last_opened_file_path\": \"E:/local-project/ai-sport/ai-workout-vue/public/mock\",\r\n    \"node.js.detected.package.eslint\": \"true\",\r\n    \"node.js.detected.package.tslint\": \"true\",\r\n    \"node.js.selected.package.eslint\": \"(autodetect)\",\r\n    \"node.js.selected.package.tslint\": \"(autodetect)\",\r\n    \"nodejs_package_manager_path\": \"npm\",\r\n    \"ts.external.directory.path\": \"E:\\\\local-project\\\\ai-sport\\\\ai-workout-vue\\\\node_modules\\\\typescript\\\\lib\",\r\n    \"vue.rearranger.settings.migration\": \"true\"\r\n  }\r\n}]]></component>\r\n  <component name=\"RecentsManager\">\r\n    <key name=\"CopyFile.RECENT_KEYS\">\r\n      <recent name=\"E:\\local-project\\ai-sport\\ai-workout-vue\\public\\mock\" />\r\n    </key>\r\n  </component>\r\n  <component name=\"SharedIndexes\">\r\n    <attachedChunks>\r\n      <set>\r\n        <option value=\"bundled-js-predefined-d6986cc7102b-e768b9ed790e-JavaScript-WS-243.21565.180\" />\r\n      </set>\r\n    </attachedChunks>\r\n  </component>\r\n  <component name=\"SpellCheckerSettings\" RuntimeDictionaries=\"0\" Folders=\"0\" CustomDictionaries=\"0\" DefaultDictionary=\"application-level\" UseSingleDictionary=\"true\" transferred=\"true\" />\r\n  <component name=\"TaskManager\">\r\n    <task active=\"true\" id=\"Default\" summary=\"Default task\">\r\n      <changelist id=\"ee5dae3e-e9e3-4093-ac99-661b8d33db00\" name=\"Changes\" comment=\"\" />\r\n      <created>1755412835487</created>\r\n      <option name=\"number\" value=\"Default\" />\r\n      <option name=\"presentableId\" value=\"Default\" />\r\n      <updated>1755412835487</updated>\r\n      <workItem from=\"1755412836639\" duration=\"9216000\" />\r\n      <workItem from=\"1755526566434\" duration=\"5417000\" />\r\n      <workItem from=\"1755567010226\" duration=\"13576000\" />\r\n    </task>\r\n    <servers />\r\n  </component>\r\n  <component name=\"TypeScriptGeneratedFilesManager\">\r\n    <option name=\"version\" value=\"3\" />\r\n  </component>\r\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/workspace.xml b/.idea/workspace.xml
+--- a/.idea/workspace.xml	(revision b44989318bba1d269f320ec77c45d442f3b0556a)
++++ b/.idea/workspace.xml	(date 1755658612904)
+@@ -4,28 +4,8 @@
+     <option name="autoReloadType" value="SELECTIVE" />
+   </component>
+   <component name="ChangeListManager">
+-    <list default="true" id="ee5dae3e-e9e3-4093-ac99-661b8d33db00" name="Changes" comment="">
+-      <change afterPath="$PROJECT_DIR$/ai-workout-vue/public/mock/mock-video.mp4" afterDir="false" />
++    <list default="true" id="ee5dae3e-e9e3-4093-ac99-661b8d33db00" name="Changes" comment="1">
+       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/ai-workout-vue/src/App.vue" beforeDir="false" afterPath="$PROJECT_DIR$/ai-workout-vue/src/App.vue" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/ai-workout-vue/src/components/WorkoutInterface.vue" beforeDir="false" afterPath="$PROJECT_DIR$/ai-workout-vue/src/components/WorkoutInterface.vue" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/ai-workout-vue/src/components/WorkoutMain.vue" beforeDir="false" afterPath="$PROJECT_DIR$/ai-workout-vue/src/components/WorkoutMain.vue" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/ai-workout-vue/src/components/WorkoutSelector.vue" beforeDir="false" afterPath="$PROJECT_DIR$/ai-workout-vue/src/components/WorkoutSelector.vue" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/ai-workout-vue/src/composables/useAudio.ts" beforeDir="false" afterPath="$PROJECT_DIR$/ai-workout-vue/src/composables/useAudio.ts" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/ai-workout-vue/src/composables/useAuth.ts" beforeDir="false" afterPath="$PROJECT_DIR$/ai-workout-vue/src/composables/useAuth.ts" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/ai-workout-vue/src/composables/useCounter.ts" beforeDir="false" afterPath="$PROJECT_DIR$/ai-workout-vue/src/composables/useCounter.ts" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/ai-workout-vue/src/composables/useWorkoutCounter.ts" beforeDir="false" afterPath="$PROJECT_DIR$/ai-workout-vue/src/composables/useWorkoutCounter.ts" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/ai-workout-vue/src/router/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/ai-workout-vue/src/router/index.ts" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/ai-workout-vue/src/views/HomeView.vue" beforeDir="false" afterPath="$PROJECT_DIR$/ai-workout-vue/src/views/HomeView.vue" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/ai-workout-vue/src/views/LoginView.vue" beforeDir="false" afterPath="$PROJECT_DIR$/ai-workout-vue/src/views/LoginView.vue" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/ai-workout-vue/src/views/ProfileView.vue" beforeDir="false" afterPath="$PROJECT_DIR$/ai-workout-vue/src/views/ProfileView.vue" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/ai-workout-vue/src/views/WorkoutHistoryView.vue" beforeDir="false" afterPath="$PROJECT_DIR$/ai-workout-vue/src/views/WorkoutHistoryView.vue" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/ai-workout-vue/src/views/WorkoutView.vue" beforeDir="false" afterPath="$PROJECT_DIR$/ai-workout-vue/src/views/WorkoutView.vue" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/ai-workout-vue/vite.config.ts" beforeDir="false" afterPath="$PROJECT_DIR$/ai-workout-vue/vite.config.ts" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/backend/src/models/Workout.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/models/Workout.js" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/backend/src/routes/users.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/routes/users.js" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/backend/src/routes/workouts.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/routes/workouts.js" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/todo.md" beforeDir="false" afterPath="$PROJECT_DIR$/todo.md" afterDir="false" />
+     </list>
+     <option name="SHOW_DIALOG" value="false" />
+     <option name="HIGHLIGHT_CONFLICTS" value="true" />
+@@ -44,22 +24,22 @@
+     <option name="hideEmptyMiddlePackages" value="true" />
+     <option name="showLibraryContents" value="true" />
+   </component>
+-  <component name="PropertiesComponent"><![CDATA[{
+-  "keyToString": {
+-    "RunOnceActivity.ShowReadmeOnStart": "true",
+-    "RunOnceActivity.git.unshallow": "true",
+-    "git-widget-placeholder": "master",
+-    "ignore.virus.scanning.warn.message": "true",
+-    "last_opened_file_path": "E:/local-project/ai-sport/ai-workout-vue/public/mock",
+-    "node.js.detected.package.eslint": "true",
+-    "node.js.detected.package.tslint": "true",
+-    "node.js.selected.package.eslint": "(autodetect)",
+-    "node.js.selected.package.tslint": "(autodetect)",
+-    "nodejs_package_manager_path": "npm",
+-    "ts.external.directory.path": "E:\\local-project\\ai-sport\\ai-workout-vue\\node_modules\\typescript\\lib",
+-    "vue.rearranger.settings.migration": "true"
++  <component name="PropertiesComponent">{
++  &quot;keyToString&quot;: {
++    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
++    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
++    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
++    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
++    &quot;last_opened_file_path&quot;: &quot;E:/local-project/ai-sport/ai-workout-vue/public/mock&quot;,
++    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
++    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
++    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
++    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
++    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
++    &quot;ts.external.directory.path&quot;: &quot;E:\\local-project\\ai-sport\\ai-workout-vue\\node_modules\\typescript\\lib&quot;,
++    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+   }
+-}]]></component>
++}</component>
+   <component name="RecentsManager">
+     <key name="CopyFile.RECENT_KEYS">
+       <recent name="E:\local-project\ai-sport\ai-workout-vue\public\mock" />
+@@ -82,11 +62,27 @@
+       <updated>1755412835487</updated>
+       <workItem from="1755412836639" duration="9216000" />
+       <workItem from="1755526566434" duration="5417000" />
+-      <workItem from="1755567010226" duration="13576000" />
++      <workItem from="1755567010226" duration="14370000" />
++      <workItem from="1755658072793" duration="533000" />
+     </task>
++    <task id="LOCAL-00001" summary="1">
++      <option name="closed" value="true" />
++      <created>1755614624162</created>
++      <option name="number" value="00001" />
++      <option name="presentableId" value="LOCAL-00001" />
++      <option name="project" value="LOCAL" />
++      <updated>1755614624162</updated>
++    </task>
++    <option name="localTasksCounter" value="2" />
+     <servers />
+   </component>
+   <component name="TypeScriptGeneratedFilesManager">
+     <option name="version" value="3" />
+   </component>
++  <component name="VcsManagerConfiguration">
++    <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
++    <option name="CHECK_NEW_TODO" value="false" />
++    <MESSAGE value="1" />
++    <option name="LAST_COMMIT_MESSAGE" value="1" />
++  </component>
+ </project>
+\ No newline at end of file

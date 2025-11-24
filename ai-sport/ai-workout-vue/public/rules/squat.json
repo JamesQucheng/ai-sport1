@@ -1,0 +1,40 @@
+{
+  "poseDetectorConfig": {
+    "model": "MoveNet",
+    "detectorConfig": {
+      "modelType": "SINGLEPOSE_LIGHTNING"
+    },
+    "estimationConfig": {}
+  },
+  "classifierConfig": {
+    "path": "./tfjs-model/squat/model.json"
+  },
+  "rulesCountConfig": {
+    "nameWorkout": "squat",
+    "nameStage": ["down", "up"],
+    "pathImageStage": [
+      "./img/down-arrow.svg",
+      "./img/up-arrow.svg"
+    ],
+    "pathAudioStage": [
+      "./audio/go-down-from-google-translate.webm",
+      "./audio/go-up-from-google-translate.webm"
+    ],
+    "anglePoint": {
+      "13": {
+        "spouseIdx": [11, 15],
+        "rangeAngle": [
+          {"min": 70, "max": 100},
+          {"min": 160, "max": 180}
+        ]
+      },
+      "14": {
+        "spouseIdx": [12, 16],
+        "rangeAngle": [
+          {"min": 70, "max": 100},
+          {"min": 160, "max": 180}
+        ]
+      }
+    }
+  }
+}
