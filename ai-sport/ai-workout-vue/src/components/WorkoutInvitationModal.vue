@@ -65,10 +65,10 @@
 
           <div class="progress-card">
             <div class="progress-header">
-              <el-avatar :size="40" :src="user.avatar">
-                {{ user.username?.charAt(0) }}
+              <el-avatar :size="40" :src="user?.profile?.avatar">
+                {{ user?.username?.charAt(0) }}
               </el-avatar>
-              <span>{{ user.username }}</span>
+              <span>{{ user?.username }}</span>
             </div>
             <div class="progress-stats">
               <div class="stat">
@@ -180,19 +180,29 @@ const formatTime = (time: string) => {
   })
 }
 
-const getWorkoutTypeName = (type: string) => {
-  const types: Record<string, string> = {
-    'push-up': '俯卧撑',
-    'squat': '深蹲',
-    'sit-up': '仰卧起坐',
-    'jumping-jack': '开合跳'
-  }
+  const getWorkoutTypeName = (type: string) => {
+    const types: Record<string, string> = {
+      'push-up': '俯卧撑',
+      'squat': '深蹲',
+      'bend': '弯腰',
+      'sit-up': '仰卧起坐',
+      'jumping-jack': '开合跳'
+    }
   return types[type] || type
 }
 
 const getProgressPercentage = (completed: number, target: number) => {
   if (!completed || !target) return 0
   return Math.min(Math.round((completed / target) * 100), 100)
+}
+
+const getErrorMessage = (error: unknown) => {
+  if (error instanceof Error) return error.message
+  try {
+    return JSON.stringify(error)
+  } catch (stringifyError) {
+    return String(stringifyError)
+  }
 }
 
 const acceptInvitation = async () => {
@@ -205,7 +215,7 @@ const acceptInvitation = async () => {
     ElMessage.success('已接受运动邀请')
     emit('invitation-updated')
   } catch (error) {
-    ElMessage.error('接受邀请失败：' + error.message)
+    ElMessage.error('接受邀请失败：' + getErrorMessage(error))
   } finally {
     accepting.value = false
   }
@@ -222,7 +232,7 @@ const rejectInvitation = async () => {
     emit('invitation-updated')
     handleClose()
   } catch (error) {
-    ElMessage.error('拒绝邀请失败：' + error.message)
+    ElMessage.error('拒绝邀请失败：' + getErrorMessage(error))
   } finally {
     rejecting.value = false
   }
@@ -237,7 +247,7 @@ const startWorkout = async () => {
     ElMessage.success('运动已开始，可以实时更新进度')
     emit('invitation-updated')
   } catch (error) {
-    ElMessage.error('开始运动失败：' + error.message)
+    ElMessage.error('开始运动失败：' + getErrorMessage(error))
   } finally {
     starting.value = false
   }
@@ -257,7 +267,7 @@ const updateProgress = async () => {
       ElMessage.success('进度更新成功')
       emit('invitation-updated')
     } catch (error) {
-      ElMessage.error('更新进度失败：' + error.message)
+      ElMessage.error('更新进度失败：' + getErrorMessage(error))
     } finally {
       updating.value = false
     }
@@ -278,7 +288,7 @@ const completeWorkout = async () => {
     emit('invitation-updated')
     handleClose()
   } catch (error) {
-    ElMessage.error('完成运动失败：' + error.message)
+    ElMessage.error('完成运动失败：' + getErrorMessage(error))
   } finally {
     completing.value = false
   }

@@ -63,37 +63,6 @@ const router = createRouter({
       component: () => import('../views/AdminView.vue'),
       meta: { requiresAuth: true, requiresAdmin: true }
     },
-    {
-      path: '/checkin',
-      name: 'checkin',
-      component: () => import('../views/CheckInView.vue'),
-      meta: { requiresAuth: true }
-    },
-    {
-      path: '/plans',
-      name: 'plans',
-      component: () => import('../views/WorkoutPlansView.vue'),
-      meta: { requiresAuth: true }
-    },
-    {
-      path: '/plans/:id',
-      name: 'plan-detail',
-      component: () => import('../views/WorkoutPlanDetailView.vue'),
-      meta: { requiresAuth: true }
-    },
-    {
-      path: '/reminders',
-      name: 'reminders',
-      component: () => import('../views/ReminderSettingsView.vue'),
-      meta: { requiresAuth: true }
-    },
-    {
-      path: '/friends',
-      name: 'friends',
-      component: () => import('../views/FriendsView.vue'),
-      meta: { requiresAuth: true }
-    },
-    
   ],
 })
 

@@ -538,7 +538,7 @@ router.put('/:id/progress', authenticate, [
     .isInt({ min: 1, max: 7 })
     .withMessage('天数必须是1-7之间的整数'),
   body('workoutType')
-    .isIn(['push-up', 'squat'])
+    .isIn(['push-up', 'squat', 'bend'])
     .withMessage('运动类型无效'),
   body('actualReps')
     .isInt({ min: 0 })

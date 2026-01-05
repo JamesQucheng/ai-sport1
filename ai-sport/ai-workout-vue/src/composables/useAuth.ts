@@ -24,6 +24,8 @@ export interface User {
     totalDuration: number
     totalReps: number
     streak: number
+    totalPoints?: number
+    totalCalories?: number
     lastWorkoutDate?: string
   }
   createdAt: string

@@ -28,7 +28,7 @@ const workoutInvitationSchema = new mongoose.Schema({
   // 运动类型
   workoutType: {
     type: String,
-    enum: ['push-up', 'squat'],
+    enum: ['push-up', 'squat', 'bend'],
     required: [true, '运动类型不能为空']
   },
   

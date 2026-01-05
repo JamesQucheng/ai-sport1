@@ -31,22 +31,6 @@
             <el-icon><DataAnalysis /></el-icon>
             <span>运动记录</span>
           </el-menu-item>
-          <el-menu-item index="/plans">
-            <el-icon><Calendar /></el-icon>
-            <span>运动计划</span>
-          </el-menu-item>
-          <el-menu-item index="/checkin">
-            <el-icon><Trophy /></el-icon>
-            <span>每日签到</span>
-          </el-menu-item>
-          <el-menu-item index="/reminders">
-            <el-icon><Bell /></el-icon>
-            <span>运动提醒</span>
-          </el-menu-item>
-                  <el-menu-item index="/friends">
-          <el-icon><UserFilled /></el-icon>
-          <span>好友圈</span>
-        </el-menu-item>
           <el-menu-item index="/profile">
             <el-icon><User /></el-icon>
             <span>个人资料</span>
@@ -130,13 +114,9 @@ import {
   VideoPlay,
   DataAnalysis,
   User,
-  UserFilled,
   Setting,
   ArrowDown,
   SwitchButton,
-  Calendar,
-  Trophy,
-  Bell,
 } from '@element-plus/icons-vue'
 import { useAuth } from '@/composables/useAuth'
 

@@ -1,10 +1,9 @@
 import { ref, computed, shallowRef } from 'vue'
-import * as poseDetection from '@tensorflow-models/pose-detection'
+import { Pose, POSE_CONNECTIONS } from '@mediapipe/pose'
+import type { Results as PoseResults } from '@mediapipe/pose'
 import { loadLayersModel } from '@tensorflow/tfjs-layers'
 import { tensor } from '@tensorflow/tfjs-core'
 import * as tf from '@tensorflow/tfjs-core'
-import { safeTensorFlowManager } from '@/utils/safeTensorFlowManager'
-import { tensorflowManager, waitForTensorFlow } from '@/utils/tensorflowManager'
 
 export interface Keypoint {
   x: number
@@ -26,7 +25,7 @@ export interface WorkoutRules {
 
 export function useAIDetection() {
   // 模型状态 - 使用shallowRef避免Vue深度观察TensorFlow模型
-  const poseDetector = shallowRef<poseDetection.PoseDetector | null>(null)
+  const poseDetector = shallowRef<Pose | null>(null)
   const classifierModel = shallowRef<any>(null)
   const isDetectorLoaded = ref(false)
   const isClassifierLoaded = ref(false)
@@ -77,12 +76,7 @@ export function useAIDetection() {
   }
   
   // 骨架连接定义
-  const poseConnections = [
-    [0, 1], [0, 2], [1, 3], [2, 4], // 头部
-    [5, 7], [7, 9], [6, 8], [8, 10], // 手臂
-    [5, 6], [5, 11], [6, 12], // 躯干
-    [11, 12], [11, 13], [13, 15], [12, 14], [14, 16] // 腿部
-  ]
+  const poseConnections = POSE_CONNECTIONS
   
   // 计算角度
   const calculateAngle = (center: Keypoint, point1: Keypoint, point2: Keypoint): number => {
@@ -97,69 +91,26 @@ export function useAIDetection() {
     return Math.round(angle)
   }
   
-  // 初始化姿势检测器
-  // 检查本地模型文件是否存在
-  const checkLocalModelExists = async (): Promise<boolean> => {
-    try {
-      addLog('正在检查本地模型文件是否存在...', 'info')
-      const response = await fetch('/tfjs-model/movenet/lightning/model.json', { method: 'HEAD' })
-      addLog(`本地模型检查响应: ${response.status} ${response.ok}`, 'info')
-      return response.ok
-    } catch (error) {
-      addLog(`本地模型检查失败: ${error}`, 'warning')
-      return false
-    }
-  }
-
+  // 初始化姿势检测器（MediaPipe Pose）
   const initializePoseDetector = async () => {
     try {
-      addLog('开始加载姿势检测模型...', 'info')
+      addLog('开始加载 MediaPipe Pose 检测器...', 'info')
+      poseDetector.value = new Pose({
+        locateFile: (file: string) => `https://cdn.jsdelivr.net/npm/@mediapipe/pose@0.5.1675469404/${file}`
+      })
 
-      const tfStatus = await safeTensorFlowManager.ensureReady()
-      if (!tfStatus.isReady) {
-        throw new Error(`TensorFlow.js 未初始化: ${tfStatus.error || '未知错误'}`)
-      }
-      addLog(`TensorFlow.js 已准备，backend: ${tfStatus.backend}`, 'info')
+      poseDetector.value.setOptions({
+        modelComplexity: 1,
+        smoothLandmarks: true,
+        enableSegmentation: false,
+        minDetectionConfidence: 0.6,
+        minTrackingConfidence: 0.6
+      })
 
-      const model = poseDetection.SupportedModels.MoveNet
-      const modelOptions: any = {
-        modelType: poseDetection.movenet.modelType.SINGLEPOSE_LIGHTNING
-      }
-      
-      // 自动检测本地模型是否存在
-      const hasLocalModel = await checkLocalModelExists()
-      addLog(`本地模型检测结果: ${hasLocalModel}`, 'info')
-      
-      if (hasLocalModel) {
-        modelOptions.modelUrl = '/tfjs-model/movenet/lightning/model.json'
-        addLog(`检测到本地MoveNet模型，使用本地模型，modelUrl: ${modelOptions.modelUrl}`, 'success')
-      } else {
-        addLog('未检测到本地模型，使用远程MoveNet模型', 'info')
-      }
-      
-      addLog(`开始创建检测器，配置: ${JSON.stringify(modelOptions)}`, 'info')
-      const detector = await poseDetection.createDetector(model, modelOptions)
-
-      poseDetector.value = detector
       isDetectorLoaded.value = true
-      addLog('姿势检测模型加载成功！', 'success')
+      addLog('MediaPipe Pose 模型加载成功', 'success')
     } catch (error) {
-      addLog(`姿势检测模型加载失败: ${error}`, 'error')
-      // 如果本地模型加载失败，尝试使用远程模型
-      if (error.message && error.message.includes('model.json')) {
-        addLog('本地模型加载失败，回退到远程模型', 'warning')
-        try {
-          const model = poseDetection.SupportedModels.MoveNet
-          const detector = await poseDetection.createDetector(model, {
-            modelType: poseDetection.movenet.modelType.SINGLEPOSE_LIGHTNING
-          })
-          poseDetector.value = detector
-          isDetectorLoaded.value = true
-          addLog('远程模型加载成功', 'success')
-        } catch (fallbackError) {
-          addLog(`远程模型也加载失败: ${fallbackError}`, 'error')
-        }
-      }
+      addLog(`MediaPipe Pose 初始化失败: ${error instanceof Error ? error.message : String(error)}`, 'error')
     }
   }
 
@@ -169,40 +120,38 @@ export function useAIDetection() {
     }
 
     try {
-      const backend = safeTensorFlowManager.getCurrentBackend()
-      const poses = await poseDetector.value.estimatePoses(videoElement.value)
-
-      if (poses && poses.length > 0) {
-        const keypoints = poses[0].keypoints
-        if (keypoints && keypoints.length > 0) {
-          const convertedKeypoints: Keypoint[] = keypoints.map((kp: any) => ({
-            x: kp.x,
-            y: kp.y,
-            score: kp.score,
-            name: kp.name
-          }))
-          const xyPoints = drawSkeleton(convertedKeypoints)
-          if (classifierModel.value && isClassifierLoaded.value) {
-            await classifyPose(xyPoints)
-          }
-          countExercise(convertedKeypoints)
-          updateFPS()
-          // addLog(`姿势检测成功，关键点数量: ${convertedKeypoints.length}, backend: ${backend}`, 'success')
-          return convertedKeypoints
+      const results = await new Promise<PoseResults>((resolve, reject) => {
+        try {
+          poseDetector.value!.onResults((poseResults: PoseResults) => resolve(poseResults))
+          poseDetector.value!.send({ image: videoElement.value as HTMLVideoElement })
+        } catch (error) {
+          reject(error)
         }
+      })
+
+      if (results.poseLandmarks && results.poseLandmarks.length > 0) {
+        const { videoWidth = canvasElement.value?.width || 0, videoHeight = canvasElement.value?.height || 0 } =
+          videoElement.value
+        const convertedKeypoints: Keypoint[] = results.poseLandmarks.map((kp, index) => ({
+          x: kp.x * videoWidth,
+          y: kp.y * videoHeight,
+          score: kp.visibility ?? 0.9,
+          name: `landmark_${index}`
+        }))
+
+        const xyPoints = drawSkeleton(convertedKeypoints)
+        if (classifierModel.value && isClassifierLoaded.value) {
+          await classifyPose(xyPoints)
+        }
+        countExercise(convertedKeypoints)
+        updateFPS()
+        return convertedKeypoints
       }
+
       return null
     } catch (error: any) {
       const errorMessage = error?.message || String(error)
       addLog(`姿势检测错误: ${errorMessage}`, 'error')
-      const tfReady = safeTensorFlowManager.isReady()
-      const tfBackend = safeTensorFlowManager.getCurrentBackend()
-      addLog(`TensorFlow状态: ready=${tfReady}, backend=${tfBackend}`, 'info')
-      if (errorMessage.includes('backend') || errorMessage.includes('Backend') ||
-          errorMessage.includes('undefined') || errorMessage.includes('null')) {
-        addLog('检测到backend错误，重新初始化TensorFlow和姿势检测器', 'warning')
-        setTimeout(() => { reinitializePoseDetector() }, 800)
-      }
       return null
     }
   }
@@ -210,14 +159,12 @@ export function useAIDetection() {
   const reinitializePoseDetector = async () => {
     try {
       isDetectorLoaded.value = false
-      addLog('开始重新初始化 TensorFlow...', 'info')
+      addLog('正在重新初始化 MediaPipe Pose...', 'info')
       const oldDetector = poseDetector.value
       poseDetector.value = null
-      if (oldDetector && typeof oldDetector.dispose === 'function') {
-        try { oldDetector.dispose() } catch {}
+      if (oldDetector && typeof (oldDetector as any).close === 'function') {
+        try { (oldDetector as any).close() } catch {}
       }
-      const status = await safeTensorFlowManager.reinitialize()
-      addLog(`TensorFlow 重新初始化完成，backend=${status.backend}`, 'success')
       await initializePoseDetector()
       addLog('姿势检测器重新初始化完成', 'info')
     } catch (e: any) {
@@ -423,15 +370,19 @@ export function useAIDetection() {
       let newStage = ''
       let movementQuality = 0 // 动作标准程度 0-100
       
-      if (workoutRules.value.nameWorkout === 'push-up') {
-        const pushUpResult = analyzePushUp(keypoints)
-        newStage = pushUpResult.stage
-        movementQuality = pushUpResult.quality
-      } else if (workoutRules.value.nameWorkout === 'squat') {
-        const squatResult = analyzeSquat(keypoints)
-        newStage = squatResult.stage
-        movementQuality = squatResult.quality
-      }
+    if (workoutRules.value.nameWorkout === 'push-up') {
+      const pushUpResult = analyzePushUp(keypoints)
+      newStage = pushUpResult.stage
+      movementQuality = pushUpResult.quality
+    } else if (workoutRules.value.nameWorkout === 'squat') {
+      const squatResult = analyzeSquat(keypoints)
+      newStage = squatResult.stage
+      movementQuality = squatResult.quality
+    } else if (workoutRules.value.nameWorkout === 'bend') {
+      const bendResult = analyzeBend(keypoints)
+      newStage = bendResult.stage
+      movementQuality = bendResult.quality
+    }
       
       // 阶段变化检测和计数
       if (newStage && newStage !== currentStage.value) {
@@ -588,6 +539,55 @@ export function useAIDetection() {
     
     return { stage, quality: Math.max(0, quality) }
   }
+
+  // 弯腰分析
+  const analyzeBend = (keypoints: Keypoint[]): { stage: string, quality: number } => {
+    const leftShoulder = keypoints.find(kp => kp.name === 'left_shoulder')
+    const rightShoulder = keypoints.find(kp => kp.name === 'right_shoulder')
+    const leftHip = keypoints.find(kp => kp.name === 'left_hip')
+    const rightHip = keypoints.find(kp => kp.name === 'right_hip')
+    const leftKnee = keypoints.find(kp => kp.name === 'left_knee')
+    const rightKnee = keypoints.find(kp => kp.name === 'right_knee')
+
+    if (!leftShoulder || !rightShoulder || !leftHip || !rightHip || !leftKnee || !rightKnee) {
+      return { stage: '', quality: 0 }
+    }
+
+    const shoulderY = (leftShoulder.y + rightShoulder.y) / 2
+    const hipY = (leftHip.y + rightHip.y) / 2
+    const kneeY = (leftKnee.y + rightKnee.y) / 2
+
+    let stage = ''
+    if (shoulderY > hipY + 15) {
+      stage = 'down'
+    } else if (shoulderY < hipY + 5) {
+      stage = 'up'
+    }
+
+    let quality = 100
+
+    // 1. 弯腰深度：肩部是否明显低于髋部
+    const bendDepth = shoulderY - hipY
+    if (bendDepth < 10) quality -= 25
+    else if (bendDepth < 20) quality -= 10
+
+    // 2. 膝盖稳定性：避免过度弯曲形成深蹲
+    const hipKneeGap = hipY - kneeY
+    if (hipKneeGap < -10) quality -= 20
+    else if (hipKneeGap < 5) quality -= 10
+
+    // 3. 躯干对齐：左右肩的高度差
+    const shoulderAlignment = Math.abs(leftShoulder.y - rightShoulder.y)
+    if (shoulderAlignment > 25) quality -= 20
+    else if (shoulderAlignment > 12) quality -= 10
+
+    // 4. 髋部对齐，避免扭转
+    const hipAlignment = Math.abs(leftHip.y - rightHip.y)
+    if (hipAlignment > 20) quality -= 15
+    else if (hipAlignment > 10) quality -= 8
+
+    return { stage, quality: Math.max(0, quality) }
+  }
   
   // 更新FPS
   const updateFPS = (): void => {
@@ -646,7 +646,7 @@ export function useAIDetection() {
       addLog(`设置运动类型: ${workout}`, 'info')
       
       // 使用内置的运动规则，避免JSON加载错误
-      const defaultRules = {
+      const defaultRules: Record<string, WorkoutRules> = {
         'push-up': {
           nameWorkout: 'push-up',
           nameStage: ['down', 'up'],
@@ -658,7 +658,17 @@ export function useAIDetection() {
           anglePoint: {}
         },
         'squat': {
-          nameWorkout: 'squat', 
+          nameWorkout: 'squat',
+          nameStage: ['down', 'up'],
+          pathImageStage: ['./img/down-arrow.svg', './img/up-arrow.svg'],
+          pathAudioStage: [
+            `${window.location.origin}/audio/go-down-from-google-translate.webm`,
+            `${window.location.origin}/audio/go-up-from-google-translate.webm`
+          ],
+          anglePoint: {}
+        },
+        'bend': {
+          nameWorkout: 'bend',
           nameStage: ['down', 'up'],
           pathImageStage: ['./img/down-arrow.svg', './img/up-arrow.svg'],
           pathAudioStage: [

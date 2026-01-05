@@ -25,9 +25,9 @@ router.post('/',
   body('inviteeId')
     .isMongoId()
     .withMessage('接收者ID格式无效'),
-  body('workoutType')
-    .isIn(['push-up', 'squat'])
-    .withMessage('运动类型无效'),
+body('workoutType')
+  .isIn(['push-up', 'squat', 'bend'])
+  .withMessage('运动类型无效'),
   body('workoutName')
     .trim()
     .isLength({ min: 1, max: 100 })

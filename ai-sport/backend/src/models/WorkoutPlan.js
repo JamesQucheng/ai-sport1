@@ -82,7 +82,7 @@ const workoutPlanSchema = new mongoose.Schema({
       workouts: [{
         workoutType: {
           type: String,
-          enum: ['push-up', 'squat'],
+          enum: ['push-up', 'squat', 'bend'],
           required: [true, '运动类型不能为空']
         },
         workoutName: {
@@ -210,19 +210,19 @@ const workoutPlanSchema = new mongoose.Schema({
   },
   
   // 生成参数（用于系统生成的计划）
-  generationParams: {
-    userAge: Number,
-    userWeight: Number,
-    userHeight: Number,
-    fitnessLevel: {
-      type: String,
-      enum: ['beginner', 'intermediate', 'advanced']
-    },
-    availableTime: Number, // 每次运动可用时间（分钟）
-    preferredWorkouts: [{
-      type: String,
-      enum: ['push-up', 'squat', 'plank', 'jumping-jack']
-    }],
+    generationParams: {
+      userAge: Number,
+      userWeight: Number,
+      userHeight: Number,
+      fitnessLevel: {
+        type: String,
+        enum: ['beginner', 'intermediate', 'advanced']
+      },
+      availableTime: Number, // 每次运动可用时间（分钟）
+      preferredWorkouts: [{
+        type: String,
+        enum: ['push-up', 'squat', 'bend', 'plank', 'jumping-jack']
+      }],
     goals: [{
       type: String,
       enum: ['weight_loss', 'muscle_building', 'endurance', 'flexibility', 'general_fitness']
@@ -328,7 +328,7 @@ workoutPlanSchema.statics.generateSmartPlan = async function(user, params) {
       userHeight: user.profile?.height,
       fitnessLevel: fitnessLevel,
       availableTime: availableTime,
-      preferredWorkouts: user.preferences?.favoriteWorkouts || ['push-up', 'squat'],
+        preferredWorkouts: user.preferences?.favoriteWorkouts || ['push-up', 'squat', 'bend'],
       goals: goals,
       generatedAt: new Date()
     }
@@ -407,7 +407,7 @@ workoutPlanSchema.statics.calculateWorkoutDays = function(frequency) {
 // 静态方法：生成每日运动
 workoutPlanSchema.statics.generateDailyWorkouts = function(fitnessLevel, availableTime, goals, week) {
   const workouts = [];
-  const workoutTypes = ['push-up', 'squat'];
+  const workoutTypes = ['push-up', 'squat', 'bend'];
   
   // 根据可用时间和健身水平决定运动时长
   let duration = '3分钟';
@@ -429,26 +429,29 @@ workoutPlanSchema.statics.generateDailyWorkouts = function(fitnessLevel, availab
   
   // 根据目标选择运动类型
   let selectedWorkouts = [];
-  if (goals.includes('muscle_building')) {
-    selectedWorkouts = ['push-up', 'squat'];
-  } else if (goals.includes('weight_loss')) {
-    selectedWorkouts = ['squat', 'push-up'];
-  } else if (goals.includes('endurance')) {
-    selectedWorkouts = ['push-up', 'squat'];
-  } else {
-    selectedWorkouts = ['push-up', 'squat']; // 默认
-  }
+    if (goals.includes('flexibility')) {
+      selectedWorkouts = ['bend', 'squat'];
+    } else if (goals.includes('muscle_building')) {
+      selectedWorkouts = ['push-up', 'squat'];
+    } else if (goals.includes('weight_loss')) {
+      selectedWorkouts = ['squat', 'push-up'];
+    } else if (goals.includes('endurance')) {
+      selectedWorkouts = ['push-up', 'squat'];
+    } else {
+      selectedWorkouts = ['push-up', 'squat', 'bend']; // 默认
+    }
   
   // 随机选择1-2个运动
   const numWorkouts = Math.min(2, selectedWorkouts.length);
   const shuffled = selectedWorkouts.sort(() => 0.5 - Math.random());
   
-  for (let i = 0; i < numWorkouts; i++) {
-    const workoutType = shuffled[i];
-    const workoutNames = {
-      'push-up': '俯卧撑',
-      'squat': '深蹲'
-    };
+    for (let i = 0; i < numWorkouts; i++) {
+      const workoutType = shuffled[i];
+      const workoutNames = {
+        'push-up': '俯卧撑',
+        'squat': '深蹲',
+        'bend': '弯腰'
+      };
     
     // 根据健身水平和周数调整难度
     let difficulty = 3;

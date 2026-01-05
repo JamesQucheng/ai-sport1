@@ -11,7 +11,7 @@
     <!-- Scores Modal -->
     <ScoresModal
       :show="showScoresModal"
-      :scores="workoutStore.scoreStorage.scores.value"
+      :scores="workoutStore.scoreStorage.scores"
       @close="showScoresModal = false"
     />
     
@@ -314,7 +314,7 @@ const screenDimensions = ref({
 const stream = ref<MediaStream | null>(null)
 
 // Settings state
-const currentSettings = ref(workoutStore.settingsStorage.settings.value)
+const currentSettings = ref({ ...workoutStore.settingsStorage.settings })
 
 // Computed properties
 const workoutTitle = computed(() => {

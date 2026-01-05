@@ -433,6 +433,10 @@ const loadCheckInStatus = async () => {
   }
 }
 
+const loadStats = async () => {
+  await loadCheckInStatus()
+}
+
 const loadLeaderboard = async () => {
   try {
     const response = await apiRequest(`/checkin/leaderboard?type=${leaderboardType.value}&limit=10`)

@@ -25,7 +25,7 @@ export function useClassifier() {
       console.log(`TensorFlow.js 已准备，backend: ${tfStatus.backend}`)
       
       // 模拟分类器加载
-      classNames.value = ['push-up', 'squat', 'none']
+      classNames.value = ['push-up', 'squat', 'bend', 'none']
       isModelLoaded.value = true
       console.log('分类器模型加载成功')
     } catch (error) {
@@ -62,12 +62,17 @@ export function useClassifier() {
         const shoulderRight = { x: inputData[12], y: inputData[13] }
         const hipLeft = { x: inputData[22], y: inputData[23] }
         const hipRight = { x: inputData[24], y: inputData[25] }
-        
+        const kneeLeft = { x: inputData[26], y: inputData[27] }
+        const kneeRight = { x: inputData[28], y: inputData[29] }
+
         // 简单判断逻辑
         const shoulderY = (shoulderLeft.y + shoulderRight.y) / 2
         const hipY = (hipLeft.y + hipRight.y) / 2
-        
-        if (shoulderY > hipY) {
+        const kneeY = (kneeLeft.y + kneeRight.y) / 2
+
+        if (shoulderY > hipY + 12 && hipY > kneeY - 10) {
+          predictedClass = 'bend'
+        } else if (shoulderY > hipY) {
           predictedClass = 'push-up'
         } else {
           predictedClass = 'squat'

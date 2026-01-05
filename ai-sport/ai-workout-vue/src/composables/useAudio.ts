@@ -1,4 +1,4 @@
-import { ref } from 'vue'
+import { ref, shallowRef } from 'vue'
 
 export interface AudioConfig {
   src: string
@@ -53,7 +53,7 @@ export class AudioHandler {
 }
 
 export function useAudio() {
-  const audioInstances = ref(new Map<string, AudioHandler>())
+  const audioInstances = shallowRef<Map<string, AudioHandler>>(new Map())
   const isAudioEnabled = ref(true)
   
   const createAudio = (key: string, config: AudioConfig): AudioHandler => {

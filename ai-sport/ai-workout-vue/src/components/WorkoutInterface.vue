@@ -629,8 +629,8 @@ const tempSettings = ref({ ...settings.value })
 
 // Workout options
 const workoutOptions = ref({
-  names: ['俯卧撑', '深蹲'],
-  slugs: ['push-up', 'squat'],
+  names: ['俯卧撑', '深蹲', '弯腰'],
+  slugs: ['push-up', 'squat', 'bend'],
   durations: ['1分钟', '3分钟', '5分钟', '7分钟']
 })
 
@@ -658,7 +658,8 @@ const canvasDimensions = ref({
 const workoutTitle = computed(() => {
   const workoutNames: Record<string, string> = {
     'push-up': '俯卧撑',
-    'squat': '深蹲'
+    'squat': '深蹲',
+    'bend': '弯腰'
   }
   const durationMap: Record<string, string> = {
     '1 Minutes': '1分钟',
@@ -678,12 +679,14 @@ const formattedTime = computed(() => {
 const bestScores = computed(() => {
   const best: Record<string, Record<string, number>> = {
     '俯卧撑': {},
-    '深蹲': {}
+    '深蹲': {},
+    '弯腰': {}
   }
-  
+
   workoutOptions.value.durations.forEach(duration => {
     best['俯卧撑'][duration] = 0
     best['深蹲'][duration] = 0
+    best['弯腰'][duration] = 0
   })
   
   scores.value.forEach(score => {
@@ -964,8 +967,13 @@ const finishWorkout = async () => {
   const plannedDuration = parseInt(durationText) * 60
   const actualDuration = plannedDuration - timeLeft.value
   
-  // 计算卡路里消耗 (简单估算：俯卧撑约0.5kcal/次，深蹲约0.3kcal/次)
-  const caloriesPerRep = props.workout === 'push-up' ? 0.5 : 0.3
+  // 计算卡路里消耗 (简单估算：俯卧撑约0.5kcal/次，深蹲约0.3kcal/次，弯腰约0.25kcal/次)
+  const caloriesPerRepMap: Record<string, number> = {
+    'push-up': 0.5,
+    'squat': 0.3,
+    'bend': 0.25
+  }
+  const caloriesPerRep = caloriesPerRepMap[props.workout] || 0.3
   const caloriesBurned = Math.round(finalReps.value * caloriesPerRep)
   
   // 计算平均标准程度 (基于AI检测的置信度)
@@ -988,7 +996,8 @@ const finishWorkout = async () => {
       // 运动名称映射
       const workoutNames: Record<string, string> = {
         'push-up': '俯卧撑',
-        'squat': '深蹲'
+        'squat': '深蹲',
+        'bend': '弯腰'
       }
       
       // 时长格式转换

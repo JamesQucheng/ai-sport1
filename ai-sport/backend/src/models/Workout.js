@@ -12,7 +12,7 @@ const workoutSchema = new mongoose.Schema({
   workoutType: {
     type: String,
     required: [true, '运动类型不能为空'],
-    enum: ['push-up', 'squat'],
+    enum: ['push-up', 'squat', 'bend'],
     index: true
   },
   workoutName: {
@@ -292,6 +292,7 @@ workoutSchema.pre('save', function(next) {
     const caloriesPerMinute = {
       'push-up': 8.5,     // 俯卧撑：高强度
       'squat': 7.2,       // 深蹲：中高强度
+      'bend': 6.0,        // 弯腰：灵活性与拉伸
       'plank': 4.8,       // 平板支撑：中等强度
       'jumping-jack': 9.8 // 开合跳：高强度
     };

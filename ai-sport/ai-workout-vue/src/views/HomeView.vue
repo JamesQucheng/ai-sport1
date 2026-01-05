@@ -9,7 +9,7 @@
             <span class="highlight">私人健身教练</span>
           </h1>
           <p class="hero-subtitle">
-            智能运动检测，实时姿态纠正，科学训练计划。开启您的智能健身之旅，让每一次运动都更加高效。
+            基于 MediaPipe 的专业姿态识别，精准追踪与记录每一次训练，让您的居家健身更安全、更高效。
           </p>
           <div class="hero-actions">
             <el-button type="primary" size="large" @click="startWorkout" class="start-btn">
@@ -133,10 +133,10 @@
           
           <el-card class="feature-card" shadow="hover">
             <div class="feature-icon plan">
-              <el-icon><Calendar /></el-icon>
+              <el-icon><DataAnalysis /></el-icon>
             </div>
-            <h3>个性化计划</h3>
-            <p>根据您的运动能力和目标，AI 为您定制专属的训练计划</p>
+            <h3>记录留存</h3>
+            <p>完整保存训练轨迹与成绩，让每一次运动都能被追溯与分析</p>
           </el-card>
         </div>
       </div>
@@ -221,29 +221,13 @@
             <h3>开始运动</h3>
             <p>立即开始AI智能运动</p>
           </el-card>
-          
-          <el-card class="nav-card" shadow="hover" @click="goToPlans">
-            <div class="nav-icon plans">
-              <el-icon><Calendar /></el-icon>
+
+          <el-card class="nav-card" shadow="hover" @click="viewHistory">
+            <div class="nav-icon history">
+              <el-icon><DataAnalysis /></el-icon>
             </div>
-            <h3>运动计划</h3>
-            <p>AI生成个性化计划</p>
-          </el-card>
-          
-          <el-card class="nav-card" shadow="hover" @click="goToCheckIn">
-            <div class="nav-icon checkin">
-              <el-icon><Trophy /></el-icon>
-            </div>
-            <h3>每日签到</h3>
-            <p>坚持签到得奖励</p>
-          </el-card>
-          
-          <el-card class="nav-card" shadow="hover" @click="goToReminders">
-            <div class="nav-icon reminders">
-              <el-icon><Bell /></el-icon>
-            </div>
-            <h3>运动提醒</h3>
-            <p>设置个性化提醒</p>
+            <h3>运动记录</h3>
+            <p>查看完整的数据留存</p>
           </el-card>
         </div>
       </div>
@@ -278,8 +262,7 @@ import {
   View,
   PieChart,
   ArrowRight,
-  Lightning,
-  Bell
+  Lightning
 } from '@element-plus/icons-vue'
 import { useAuth } from '@/composables/useAuth'
 
@@ -311,6 +294,13 @@ const workoutTypes = [
     icon: '🦵',
     description: '全身性复合动作，主要锻炼腿部肌群',
     benefits: ['腿部', '臀部', '核心']
+  },
+  {
+    type: 'bend',
+    name: '弯腰',
+    icon: '🙇',
+    description: '提升腰背灵活性与腿后侧拉伸',
+    benefits: ['腰背', '灵活性', '腘绳肌']
   }
 ]
 
@@ -321,18 +311,6 @@ const startWorkout = () => {
 
 const viewHistory = () => {
   router.push('/workout/history')
-}
-
-const goToPlans = () => {
-  router.push('/plans')
-}
-
-const goToCheckIn = () => {
-  router.push('/checkin')
-}
-
-const goToReminders = () => {
-  router.push('/reminders')
 }
 
 const selectWorkout = (workoutType: string) => {

@@ -202,6 +202,13 @@ const workoutTypes = [
     icon: '🦵',
     description: '全身性复合动作，主要锻炼腿部肌群',
     tags: ['腿部', '臀部', '核心']
+  },
+  {
+    type: 'bend',
+    name: '弯腰',
+    icon: '🙇',
+    description: '提高腰背灵活度的弯腰动作',
+    tags: ['柔韧', '腰背', '拉伸']
   }
 ]
 
