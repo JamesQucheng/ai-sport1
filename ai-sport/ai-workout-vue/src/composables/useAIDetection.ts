@@ -24,6 +24,42 @@ export interface WorkoutRules {
 }
 
 export function useAIDetection() {
+  const landmarkNames = [
+    'nose',
+    'left_eye_inner',
+    'left_eye',
+    'left_eye_outer',
+    'right_eye_inner',
+    'right_eye',
+    'right_eye_outer',
+    'left_ear',
+    'right_ear',
+    'mouth_left',
+    'mouth_right',
+    'left_shoulder',
+    'right_shoulder',
+    'left_elbow',
+    'right_elbow',
+    'left_wrist',
+    'right_wrist',
+    'left_pinky',
+    'right_pinky',
+    'left_index',
+    'right_index',
+    'left_thumb',
+    'right_thumb',
+    'left_hip',
+    'right_hip',
+    'left_knee',
+    'right_knee',
+    'left_ankle',
+    'right_ankle',
+    'left_heel',
+    'right_heel',
+    'left_foot_index',
+    'right_foot_index'
+  ]
+
   // 模型状态 - 使用shallowRef避免Vue深度观察TensorFlow模型
   const poseDetector = shallowRef<Pose | null>(null)
   const classifierModel = shallowRef<any>(null)
@@ -136,7 +172,7 @@ export function useAIDetection() {
           x: kp.x * videoWidth,
           y: kp.y * videoHeight,
           score: kp.visibility ?? 0.9,
-          name: `landmark_${index}`
+          name: landmarkNames[index] ?? `landmark_${index}`
         }))
 
         const xyPoints = drawSkeleton(convertedKeypoints)
