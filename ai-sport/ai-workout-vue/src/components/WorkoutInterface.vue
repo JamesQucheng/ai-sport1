@@ -171,6 +171,53 @@
             class="control-btn-small"
           />
         </div>
+
+        <!-- 视频来源选择 -->
+        <el-card class="source-card" shadow="never">
+          <template #header>
+            <div class="source-header">
+              <el-icon><VideoPlay /></el-icon>
+              <span>视频来源</span>
+            </div>
+          </template>
+
+          <div class="source-options">
+            <el-radio-group v-model="sourceMode" size="small">
+              <el-radio-button label="camera">摄像头</el-radio-button>
+              <el-radio-button label="upload">上传视频</el-radio-button>
+            </el-radio-group>
+          </div>
+
+          <div v-if="sourceMode === 'upload'" class="upload-block">
+            <el-upload
+              :show-file-list="false"
+              :auto-upload="false"
+              accept="video/*"
+              :before-upload="beforeUploadVideo"
+            >
+              <el-button type="primary" size="small" plain>选择健身视频</el-button>
+            </el-upload>
+            <p class="upload-hint">
+              {{ uploadedVideoName || '本地播放并检测，不会上传到服务器' }}
+            </p>
+            <el-tag
+              v-if="uploadedVideoName"
+              size="small"
+              type="info"
+            >
+              已选择：{{ uploadedVideoName }}
+            </el-tag>
+          </div>
+
+          <div v-else class="source-status">
+            <el-tag type="success" size="small">实时摄像头</el-tag>
+          </div>
+
+          <div class="source-footnote">
+            <el-icon class="inline-icon"><Timer /></el-icon>
+            <span>{{ videoStatusText }}</span>
+          </div>
+        </el-card>
       </el-aside>
     </el-container>
     
@@ -333,13 +380,14 @@ import { ref, computed, onMounted, onUnmounted, onBeforeUnmount, nextTick, watch
 import { ElMessage } from 'element-plus'
 import { onBeforeRouteLeave } from 'vue-router'
 import { 
-  QuestionFilled, 
-  TrophyBase, 
-  Setting, 
-  VideoPlay, 
-  VideoPause, 
+  QuestionFilled,
+  TrophyBase,
+  Setting,
+  VideoPlay,
+  VideoPause,
   RefreshRight,
-  User
+  User,
+  Timer
 } from '@element-plus/icons-vue'
 import { useAIDetection } from '@/composables/useAIDetection'
 import { useAudio } from '@/composables/useAudio'
@@ -417,6 +465,80 @@ const updatePlanWorkoutStatus = async (planId: string, workoutId: string) => {
     console.error('更新运动计划进度失败:', error)
     aiDetection.addLog(`运动计划进度更新失败: ${error}`, 'error')
     return false
+  }
+}
+
+const loadUploadedVideo = async (fileUrl: string, fileName?: string) => {
+  if (!webcamBox.value) throw new Error('视频元素未准备好')
+
+  stopCameraTracks()
+  videoReady.value = false
+  sourceMode.value = 'upload'
+  uploadedVideoName.value = fileName || uploadedVideoName.value
+
+  webcamBox.value.srcObject = null
+  webcamBox.value.src = fileUrl
+  webcamBox.value.loop = false
+  webcamBox.value.muted = true
+  webcamBox.value.autoplay = true
+  webcamBox.value.playsInline = true
+
+  return new Promise<void>((resolve, reject) => {
+    const video = webcamBox.value!
+
+    const onLoadedData = () => {
+      video.removeEventListener('loadeddata', onLoadedData)
+      video.removeEventListener('error', onError)
+      aiDetection.addLog(`已加载本地视频: ${uploadedVideoName.value || '自定义视频'}`, 'success')
+      syncVideoMetadata()
+      resolve()
+    }
+
+    const onError = (e: Event) => {
+      video.removeEventListener('loadeddata', onLoadedData)
+      video.removeEventListener('error', onError)
+      reject(new Error('本地视频加载失败'))
+    }
+
+    video.addEventListener('loadeddata', onLoadedData)
+    video.addEventListener('error', onError)
+
+    if (video.readyState >= 2) {
+      onLoadedData()
+    }
+  })
+}
+
+const beforeUploadVideo = async (file: File) => {
+  try {
+    if (uploadedVideoUrl.value) URL.revokeObjectURL(uploadedVideoUrl.value)
+    uploadedVideoUrl.value = URL.createObjectURL(file)
+    await loadUploadedVideo(uploadedVideoUrl.value, file.name)
+    ElMessage.success('已切换至上传视频，准备开始检测')
+  } catch (error) {
+    aiDetection.addLog(`上传视频处理失败: ${error}`, 'error')
+    ElMessage.error('上传视频加载失败，请重试')
+  }
+  return false
+}
+
+const reloadUploadedVideo = async () => {
+  if (sourceMode.value !== 'upload') return
+  if (!uploadedVideoUrl.value) {
+    videoReady.value = false
+    aiDetection.addLog('请先选择健身视频', 'warning')
+    return
+  }
+  await loadUploadedVideo(uploadedVideoUrl.value, uploadedVideoName.value)
+
+  // 上传后立即开始检测，保证用户能立刻看到叠加效果
+  if (aiDetection.isDetectorLoaded.value && videoReady.value) {
+    if (!isRunning.value) {
+      await resume()
+    } else {
+      await ensureVideoPlaying()
+      await aiDetection.startDetection()
+    }
   }
 }
 
@@ -550,8 +672,22 @@ const delayCount = ref(0)
 const timeLeft = ref(180)
 const finalReps = ref(0)
 
-// Camera stream
+// Camera & 视频源状态
 const cameraStream = ref<MediaStream | null>(null)
+const sourceMode = ref<'camera' | 'upload'>('camera')
+const uploadedVideoName = ref('')
+const uploadedVideoUrl = ref<string | null>(null)
+const videoDurationSeconds = ref<number | null>(null)
+const videoReady = ref(false)
+
+const videoStatusText = computed(() => {
+  if (!videoReady.value) return '视频源未就绪'
+  if (sourceMode.value === 'upload') {
+    const durationText = videoDurationSeconds.value ? `${videoDurationSeconds.value}s` : '准备中'
+    return `${uploadedVideoName.value || '本地视频'} · ${durationText}`
+  }
+  return '摄像头已连接'
+})
 
 // AI state from composable
 const count = computed(() => aiDetection.count.value)
@@ -586,6 +722,18 @@ watch(currentStage, async (newStage, oldStage) => {
     } catch (error) {
       aiDetection.addLog(`阶段音效播放失败: ${error}`, 'warning')
     }
+  }
+})
+
+watch(sourceMode, async (mode) => {
+  aiDetection.stopDetection()
+  isRunning.value = false
+  isPaused.value = false
+
+  if (mode === 'camera') {
+    await initCamera()
+  } else {
+    await reloadUploadedVideo()
   }
 })
 
@@ -629,8 +777,8 @@ const tempSettings = ref({ ...settings.value })
 
 // Workout options
 const workoutOptions = ref({
-  names: ['俯卧撑', '深蹲'],
-  slugs: ['push-up', 'squat'],
+  names: ['俯卧撑', '深蹲', '弯腰'],
+  slugs: ['push-up', 'squat', 'bend'],
   durations: ['1分钟', '3分钟', '5分钟', '7分钟']
 })
 
@@ -658,7 +806,8 @@ const canvasDimensions = ref({
 const workoutTitle = computed(() => {
   const workoutNames: Record<string, string> = {
     'push-up': '俯卧撑',
-    'squat': '深蹲'
+    'squat': '深蹲',
+    'bend': '弯腰'
   }
   const durationMap: Record<string, string> = {
     '1 Minutes': '1分钟',
@@ -678,12 +827,14 @@ const formattedTime = computed(() => {
 const bestScores = computed(() => {
   const best: Record<string, Record<string, number>> = {
     '俯卧撑': {},
-    '深蹲': {}
+    '深蹲': {},
+    '弯腰': {}
   }
-  
+
   workoutOptions.value.durations.forEach(duration => {
     best['俯卧撑'][duration] = 0
     best['深蹲'][duration] = 0
+    best['弯腰'][duration] = 0
   })
   
   scores.value.forEach(score => {
@@ -700,23 +851,75 @@ const bestScores = computed(() => {
 // Timer
 let timerInterval: number | null = null
 
+const stopCameraTracks = () => {
+  if (cameraStream.value) {
+    cameraStream.value.getTracks().forEach(track => track.stop())
+    cameraStream.value = null
+    aiDetection.addLog('摄像头已关闭', 'info')
+  }
+}
+
+const handleVideoEnded = () => {
+  if (!isRunning.value || showResult.value) return
+  aiDetection.addLog('视频播放结束，自动结束训练并保存记录', 'info')
+  finishWorkout()
+}
+
+const syncVideoMetadata = () => {
+  if (!webcamBox.value || !cnvPoseBox.value) return
+
+  const video = webcamBox.value
+  canvasDimensions.value = {
+    width: video.videoWidth || 640,
+    height: video.videoHeight || 360
+  }
+
+  if (Number.isFinite(video.duration) && video.duration > 0) {
+    videoDurationSeconds.value = Math.ceil(video.duration)
+    if (sourceMode.value === 'upload') {
+      timeLeft.value = Math.max(1, videoDurationSeconds.value)
+    }
+  } else {
+    videoDurationSeconds.value = null
+  }
+
+  aiDetection.setupElements(video, cnvPoseBox.value)
+  video.removeEventListener('ended', handleVideoEnded)
+  video.addEventListener('ended', handleVideoEnded)
+  videoReady.value = true
+}
+
+const ensureVideoPlaying = async () => {
+  if (webcamBox.value && webcamBox.value.paused) {
+    try {
+      await webcamBox.value.play()
+    } catch (error) {
+      aiDetection.addLog(`视频播放失败: ${error}`, 'warning')
+    }
+  }
+}
+
 // Camera and AI initialization
 const initCamera = async () => {
   try {
+    videoReady.value = false
     aiDetection.addLog('正在初始化摄像头...', 'info')
-    const stream = await navigator.mediaDevices.getUserMedia({ 
-      video: { 
+    const stream = await navigator.mediaDevices.getUserMedia({
+      video: {
         width: { ideal: 640 },
         height: { ideal: 360 }
       } 
     })
-    
+
     // 保存摄像头流的引用
     cameraStream.value = stream
-    
+
+    // 切换为摄像头模式
+    sourceMode.value = 'camera'
+
     if (webcamBox.value) {
       webcamBox.value.srcObject = stream
-      
+
       // 等待视频元素完全加载
       return new Promise<void>((resolve, reject) => {
         const video = webcamBox.value!
@@ -725,13 +928,7 @@ const initCamera = async () => {
           video.removeEventListener('loadeddata', onLoadedData)
           video.removeEventListener('error', onError)
           aiDetection.addLog(`摄像头加载完成！尺寸: ${video.videoWidth}x${video.videoHeight}`, 'success')
-          
-          // 更新canvas尺寸以匹配视频
-          canvasDimensions.value = {
-            width: video.videoWidth || 640,
-            height: video.videoHeight || 360
-          }
-          
+          syncVideoMetadata()
           resolve()
         }
         
@@ -762,7 +959,8 @@ const initCamera = async () => {
       webcamBox.value.muted = true
       webcamBox.value.autoplay = true
       webcamBox.value.playsInline = true
-      
+      videoReady.value = false
+
       return new Promise<void>((resolve, reject) => {
         const video = webcamBox.value!
         
@@ -770,13 +968,7 @@ const initCamera = async () => {
           video.removeEventListener('loadeddata', onLoadedData)
           video.removeEventListener('error', onError)
           aiDetection.addLog(`测试视频加载完成！尺寸: ${video.videoWidth}x${video.videoHeight}`, 'success')
-          
-          // 更新canvas尺寸
-          canvasDimensions.value = {
-            width: video.videoWidth || 640,
-            height: video.videoHeight || 360
-          }
-          
+          syncVideoMetadata()
           resolve()
         }
         
@@ -801,9 +993,16 @@ const initCamera = async () => {
 
 const initAI = async () => {
   try {
-    // 首先初始化摄像头并等待完全加载
-    await initCamera()
-    
+    // 首先根据来源准备视频
+    if (sourceMode.value === 'upload') {
+      await reloadUploadedVideo()
+      if (!videoReady.value) {
+        throw new Error('请先选择需要检测的健身视频')
+      }
+    } else {
+      await initCamera()
+    }
+
     if (!webcamBox.value || !cnvPoseBox.value) {
       throw new Error('视频或画布元素未准备好')
     }
@@ -851,7 +1050,12 @@ const resume = async () => {
       ElMessage.warning('AI模型尚未加载完成，请稍候')
       return
     }
-    
+
+    if (!videoReady.value) {
+      ElMessage.warning('视频源未就绪，请检查摄像头或上传视频')
+      return
+    }
+
     isRunning.value = true
     delayCount.value = 3
     aiDetection.addLog('开始倒计时...', 'info')
@@ -875,6 +1079,7 @@ const resume = async () => {
   } else {
     isPaused.value = false
     aiDetection.addLog('恢复训练', 'info')
+    await ensureVideoPlaying()
     await aiDetection.startDetection()
   }
   
@@ -886,9 +1091,15 @@ const resume = async () => {
 const startWorkout = async () => {
   // 播放开始音效
   await playCountdownAudio(0)
-  
+
+  if (!videoReady.value) {
+    ElMessage.warning('视频源未就绪，请检查摄像头或上传视频')
+    return
+  }
+
   aiDetection.addLog('开始正式训练！', 'success')
   ElMessage.success('开始训练！')
+  await ensureVideoPlaying()
   startTimer()
   await aiDetection.startDetection()
 }
@@ -924,7 +1135,13 @@ const restart = () => {
   aiDetection.resetCount()
   aiDetection.addLog('重新开始训练', 'info')
   ElMessage.info('已重置训练')
-  
+
+  // 如果是上传视频，重置播放进度
+  if (sourceMode.value === 'upload' && webcamBox.value) {
+    webcamBox.value.currentTime = 0
+    videoReady.value = true
+  }
+
   showResumeBtn.value = true
   showPauseBtn.value = false
   showRestartBtn.value = false
@@ -964,8 +1181,13 @@ const finishWorkout = async () => {
   const plannedDuration = parseInt(durationText) * 60
   const actualDuration = plannedDuration - timeLeft.value
   
-  // 计算卡路里消耗 (简单估算：俯卧撑约0.5kcal/次，深蹲约0.3kcal/次)
-  const caloriesPerRep = props.workout === 'push-up' ? 0.5 : 0.3
+  // 计算卡路里消耗 (简单估算：俯卧撑约0.5kcal/次，深蹲约0.3kcal/次，弯腰约0.25kcal/次)
+  const caloriesPerRepMap: Record<string, number> = {
+    'push-up': 0.5,
+    'squat': 0.3,
+    'bend': 0.25
+  }
+  const caloriesPerRep = caloriesPerRepMap[props.workout] || 0.3
   const caloriesBurned = Math.round(finalReps.value * caloriesPerRep)
   
   // 计算平均标准程度 (基于AI检测的置信度)
@@ -988,7 +1210,8 @@ const finishWorkout = async () => {
       // 运动名称映射
       const workoutNames: Record<string, string> = {
         'push-up': '俯卧撑',
-        'squat': '深蹲'
+        'squat': '深蹲',
+        'bend': '弯腰'
       }
       
       // 时长格式转换
@@ -1177,14 +1400,14 @@ const cleanup = () => {
   
   // 停止AI检测
   aiDetection.stopDetection()
-  
+
   // 停止摄像头流
-  if (cameraStream.value) {
-    cameraStream.value.getTracks().forEach(track => {
-      track.stop()
-    })
-    cameraStream.value = null
-    aiDetection.addLog('摄像头已关闭', 'info')
+  stopCameraTracks()
+
+  // 释放本地视频URL
+  if (uploadedVideoUrl.value) {
+    URL.revokeObjectURL(uploadedVideoUrl.value)
+    uploadedVideoUrl.value = null
   }
 }
 
@@ -1349,6 +1572,53 @@ onUnmounted(() => {
   width: 50px;
   height: 50px;
   font-size: 20px;
+}
+
+.source-card {
+  width: 100%;
+}
+
+.source-header {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.source-options {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 8px;
+}
+
+.upload-block {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.upload-hint {
+  margin: 0;
+  font-size: 12px;
+  color: #909399;
+}
+
+.source-status {
+  text-align: center;
+  margin: 8px 0;
+}
+
+.source-footnote {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  font-size: 12px;
+  color: #606266;
+  margin-top: 8px;
+}
+
+.inline-icon {
+  font-size: 14px;
 }
 
 .result-content {

@@ -7,7 +7,6 @@
 import { computed, onMounted, onUnmounted, nextTick } from 'vue'
 import { useRoute } from 'vue-router'
 import { useAuthStore } from '@/composables/useAuth'
-import { initGlobalReminder, destroyGlobalReminder } from '@/composables/useReminder'
 import MainLayout from '@/layouts/MainLayout.vue'
 
 const route = useRoute()
@@ -24,13 +23,9 @@ onMounted(async () => {
   
   // 认证状态初始化现在由路由守卫处理，这里不需要再次调用
   
-  // 初始化全局提醒管理器
-  initGlobalReminder()
 })
 
 onUnmounted(() => {
-  // 清理全局提醒管理器
-  destroyGlobalReminder()
 })
 </script>
 

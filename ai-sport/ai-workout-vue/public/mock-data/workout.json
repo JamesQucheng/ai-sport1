@@ -1,6 +1,6 @@
 {
   "nameWorkout": ["Push Up", "Squat"],
-  "slugWorkout": ["push-up", "squat"],
+  "slugWorkout": ["push-up", "squat", "bend"],
   "duration": ["1 Minutes", "3 Minutes", "5 Minutes", "7 Minutes"],
   "settingsConfig": {
     "currWorkout": "None",

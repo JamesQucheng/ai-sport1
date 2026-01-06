@@ -24,6 +24,8 @@ export interface User {
     totalDuration: number
     totalReps: number
     streak: number
+    totalPoints?: number
+    totalCalories?: number
     lastWorkoutDate?: string
   }
   createdAt: string
@@ -88,58 +90,117 @@ export const useAuthStore = defineStore('auth', () => {
     // 开发环境下，直接返回模拟数据，跳过实际的API请求
     if (import.meta.env.DEV) {
       console.log('开发环境：直接使用模拟数据', url)
-      
-      // 根据不同的URL路径返回相应的模拟数据
-      if (url.includes('/workouts')) {
+
+      const urlPath = url.split('?')[0]
+      const method = (options.method || 'GET').toUpperCase()
+
+      if (urlPath.startsWith('/workouts/stats/overview')) {
         return {
           status: 'success',
           message: '获取成功',
-          data: mockData.workouts as unknown as T
+          data: mockData.workoutStats as unknown as T
         }
-      } else if (url.includes('/workout-types')) {
+      }
+
+      if (/^\/workouts\/[^/]+$/.test(urlPath) && method === 'GET') {
+        const workoutId = urlPath.split('/').pop()
+        const workout = mockData.workoutList.find(item => item._id === workoutId)
+        if (workout) {
+          return {
+            status: 'success',
+            message: '获取成功',
+            data: { workout } as unknown as T
+          }
+        }
+        return {
+          status: 'error',
+          message: '未找到记录',
+          data: null as unknown as T
+        }
+      }
+
+      if (urlPath.startsWith('/workouts') && method === 'GET') {
+        return {
+          status: 'success',
+          message: '获取成功',
+          data: {
+            workouts: mockData.workoutList,
+            pagination: {
+              current: 1,
+              pages: 1,
+              total: mockData.workoutList.length,
+              limit: mockData.workoutList.length
+            }
+          } as unknown as T
+        }
+      }
+
+      if (urlPath.startsWith('/workouts') && method === 'POST') {
+        const body = options.body ? JSON.parse(options.body as string) : {}
+        const newWorkout = {
+          ...body,
+          _id: `mock-${Date.now()}`,
+          createdAt: new Date().toISOString(),
+          status: 'completed'
+        }
+        mockData.workoutList.unshift(newWorkout)
+
+        return {
+          status: 'success',
+          message: '创建成功',
+          data: { workout: newWorkout } as unknown as T
+        }
+      }
+
+      if (url.includes('/workout-types')) {
         return {
           status: 'success',
           message: '获取成功',
           data: mockData.workoutTypes as unknown as T
         }
-      } else if (url.includes('/auth/me')) {
-        // 根据token判断是返回管理员还是普通用户
-        const currentToken = localStorage.getItem('token');
-        const isAdminToken = currentToken && currentToken.includes('admin');
+      }
+
+      if (url.includes('/auth/me')) {
+        const currentToken = localStorage.getItem('token')
+        const isAdminToken = currentToken && currentToken.includes('admin')
         return {
           status: 'success',
           message: '获取成功',
           data: { user: isAdminToken ? mockData.adminProfile : mockData.userProfile } as unknown as T
         }
-      } else if (url.includes('/auth/profile')) {
-        const currentToken = localStorage.getItem('token');
-        const isAdminToken = currentToken && currentToken.includes('admin');
+      }
+
+      if (url.includes('/auth/profile')) {
+        const currentToken = localStorage.getItem('token')
+        const isAdminToken = currentToken && currentToken.includes('admin')
         return {
           status: 'success',
           message: '更新成功',
           data: { user: isAdminToken ? mockData.adminProfile : mockData.userProfile } as unknown as T
         }
-      } else if (url.includes('/auth/login') && options.method === 'POST') {
-        // 根据邮箱判断返回管理员还是普通用户
-        const body = options.body ? JSON.parse(options.body as string) : {};
-        const isAdminEmail = body.email === 'admin@aisport.com';
+      }
+
+      if (url.includes('/auth/login') && options.method === 'POST') {
+        const body = options.body ? JSON.parse(options.body as string) : {}
+        const isAdminEmail = body.email === 'admin@aisport.com'
         return {
           status: 'success',
           message: '登录成功',
-          data: { 
+          data: {
             user: isAdminEmail ? mockData.adminProfile : mockData.userProfile,
-            token: isAdminEmail ? 'mock-jwt-token-admin' : 'mock-jwt-token' 
+            token: isAdminEmail ? 'mock-jwt-token-admin' : 'mock-jwt-token'
           } as unknown as T
         }
-      } else if (url.includes('/health')) {
+      }
+
+      if (url.includes('/health')) {
         return {
           status: 'success',
           message: '服务健康',
           data: { status: 'ok', timestamp: new Date().toISOString() } as unknown as T
         }
       }
-      
-      // 对于其他所有API，返回一个通用的成功响应
+
       return {
         status: 'success',
         message: '操作成功',
@@ -467,38 +528,83 @@ export const useAuth = () => {
 
 // 模拟数据，用于开发环境
 const mockData = {
-  workouts: [
+  workoutList: [
     {
-      _id: '1',
-      name: '基础俯卧撑训练',
-      type: 'strength',
-      duration: 120,
-      difficulty: 'beginner',
-      caloriesBurned: 120,
-      date: new Date().toISOString(),
-      completed: true
+      _id: 'mock-w1',
+      workoutType: 'push-up',
+      workoutName: '俯卧撑',
+      plannedDuration: '3分钟',
+      plannedDurationSeconds: 180,
+      actualDuration: 160,
+      totalReps: 28,
+      caloriesBurned: 35,
+      averageStandardLevel: 85,
+      aiData: {
+        averageConfidence: 0.82,
+        detectionAccuracy: 82,
+        frameCount: 500,
+        averageFPS: 24,
+        poseQualityScore: 85
+      },
+      createdAt: new Date().toISOString(),
+      status: 'completed',
+      user: { _id: 'mock-user', username: 'demo_user', profile: { nickname: '健身达人' } }
     },
     {
-      _id: '2',
-      name: '30分钟有氧训练',
-      type: 'cardio',
-      duration: 1800,
-      difficulty: 'intermediate',
-      caloriesBurned: 300,
-      date: new Date(Date.now() - 86400000).toISOString(),
-      completed: true
+      _id: 'mock-w2',
+      workoutType: 'squat',
+      workoutName: '深蹲',
+      plannedDuration: '5分钟',
+      plannedDurationSeconds: 300,
+      actualDuration: 280,
+      totalReps: 40,
+      caloriesBurned: 50,
+      averageStandardLevel: 80,
+      aiData: {
+        averageConfidence: 0.78,
+        detectionAccuracy: 78,
+        frameCount: 700,
+        averageFPS: 25,
+        poseQualityScore: 80
+      },
+      createdAt: new Date(Date.now() - 86400000).toISOString(),
+      status: 'completed',
+      user: { _id: 'mock-user', username: 'demo_user', profile: { nickname: '健身达人' } }
     },
     {
-      _id: '3',
-      name: '核心力量训练',
-      type: 'strength',
-      duration: 600,
-      difficulty: 'advanced',
-      caloriesBurned: 200,
-      date: new Date(Date.now() - 172800000).toISOString(),
-      completed: true
+      _id: 'mock-w3',
+      workoutType: 'bend',
+      workoutName: '弯腰',
+      plannedDuration: '1分钟',
+      plannedDurationSeconds: 60,
+      actualDuration: 55,
+      totalReps: 24,
+      caloriesBurned: 25,
+      averageStandardLevel: 86,
+      aiData: {
+        averageConfidence: 0.85,
+        detectionAccuracy: 85,
+        frameCount: 200,
+        averageFPS: 22,
+        poseQualityScore: 86
+      },
+      createdAt: new Date(Date.now() - 2 * 86400000).toISOString(),
+      status: 'completed',
+      user: { _id: 'mock-user', username: 'demo_user', profile: { nickname: '健身达人' } }
     }
   ],
+  workoutStats: {
+    overview: {
+      totalWorkouts: 3,
+      totalDuration: 495,
+      currentStreak: 5,
+      totalReps: 92,
+      totalCalories: 110,
+      avgStandardLevel: 83,
+      avgCaloriesPerWorkout: 37,
+      maxCalories: 50
+    }
+  },
   workoutTypes: [
     { slug: 'strength', name: '力量训练', difficulty: 'beginner', category: 'strength', icon: '🏋️' },
     { slug: 'cardio', name: '有氧运动', difficulty: 'intermediate', category: 'cardio', icon: '🏃' },

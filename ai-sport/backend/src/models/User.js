@@ -82,7 +82,7 @@ const userSchema = new mongoose.Schema({
   preferences: {
     favoriteWorkouts: [{
       type: String,
-      enum: ['push-up', 'squat']
+      enum: ['push-up', 'squat', 'bend']
     }],
     defaultDuration: {
       type: String,

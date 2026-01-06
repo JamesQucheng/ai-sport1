@@ -1,0 +1,12 @@
+{
+  "rulesCountConfig": {
+    "nameWorkout": "bend",
+    "nameStage": ["down", "up"],
+    "pathImageStage": ["./img/down-arrow.svg", "./img/up-arrow.svg"],
+    "pathAudioStage": [
+      "./audio/go-down-from-google-translate.webm",
+      "./audio/go-up-from-google-translate.webm"
+    ],
+    "anglePoint": {}
+  }
+}

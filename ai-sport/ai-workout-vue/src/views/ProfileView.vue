@@ -647,7 +647,10 @@ const saveProfile = async () => {
     const valid = await profileFormRef.value.validate()
     if (!valid) return
 
-    const success = await updateProfile(profileForm)
+    const success = await updateProfile({
+      ...profileForm,
+      gender: profileForm.gender || undefined
+    })
     if (success) {
       isEditingProfile.value = false
     }

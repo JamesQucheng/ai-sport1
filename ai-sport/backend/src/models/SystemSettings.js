@@ -377,6 +377,14 @@ systemSettingsSchema.statics.getSettings = async function() {
           category: 'strength',
           targetMuscles: ['股四头肌', '臀大肌', '核心肌群'],
           caloriesPerMinute: 10
+        },
+        {
+          slug: 'bend',
+          name: '弯腰',
+          description: '腰背灵活与腿后侧拉伸训练',
+          category: 'mobility',
+          targetMuscles: ['腰部', '臀部', '腘绳肌'],
+          caloriesPerMinute: 6
         }
       ],
       durationOptions: [

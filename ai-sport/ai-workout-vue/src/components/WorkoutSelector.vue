@@ -102,17 +102,18 @@ const emit = defineEmits<{
 const selectedWorkout = ref<string>('')
 const selectedDuration = ref<string>('')
 
-// 运动选项（只保留俯卧撑和深蹲）
+// 运动选项（新增弯腰动作）
 const workoutOptions = reactive({
-  names: ["俯卧撑", "深蹲"],
-  slugs: ["push-up", "squat"],  
+  names: ["俯卧撑", "深蹲", "弯腰"],
+  slugs: ["push-up", "squat", "bend"],
   durations: ["1 Minutes", "3 Minutes", "5 Minutes", "7 Minutes"]
 })
 
 // 运动类型图标映射
 const workoutIcons: Record<string, string> = {
   'push-up': '💪',
-  'squat': '🦵'
+  'squat': '🦵',
+  'bend': '🙇'
 }
 
 const getWorkoutIcon = (type: string) => {
@@ -128,7 +129,7 @@ const handleSubmit = () => {
 const showHelp = () => {
   alert(`AI 健身助手使用说明：
   
-1. 选择运动类型：俯卧撑或深蹲
+1. 选择运动类型：俯卧撑、深蹲或弯腰
 2. 选择训练时长：1-7分钟
 3. 点击"开始训练"按钮
 4. AI 将实时检测您的动作并计数

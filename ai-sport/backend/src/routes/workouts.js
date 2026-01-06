@@ -10,7 +10,7 @@ const router = express.Router();
 // 创建运动记录
 router.post('/', authenticate, [
   body('workoutType')
-    .isIn(['push-up', 'squat'])
+    .isIn(['push-up', 'squat', 'bend'])
     .withMessage('运动类型无效'),
   body('workoutName')
     .notEmpty()
@@ -171,7 +171,7 @@ router.get('/', optionalAuth, [
     .withMessage('每页数量必须在1-50之间'),
   query('workoutType')
     .optional()
-    .isIn(['push-up', 'squat'])
+    .isIn(['push-up', 'squat', 'bend'])
     .withMessage('运动类型无效'),
   query('userId')
     .optional()
@@ -521,7 +521,7 @@ router.get('/stats/overview', authenticate, [
 router.get('/stats/leaderboard', optionalAuth, [
   query('workoutType')
     .optional()
-    .isIn(['push-up', 'squat'])
+    .isIn(['push-up', 'squat', 'bend'])
     .withMessage('运动类型无效'),
   query('limit')
     .optional()

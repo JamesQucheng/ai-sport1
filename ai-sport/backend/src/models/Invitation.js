@@ -40,7 +40,7 @@ const invitationSchema = new mongoose.Schema({
   workoutInfo: {
     workoutType: {
       type: String,
-      enum: ['push-up', 'squat'],
+      enum: ['push-up', 'squat', 'bend'],
       required: function() {
         return this.type === 'workout_together' || this.type === 'challenge';
       }

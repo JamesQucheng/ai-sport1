@@ -195,8 +195,8 @@ const activeTab = ref<'workout' | 'advanced'>('workout')
 
 // 工作配置选项
 const workoutOptions = reactive({
-  names: ["Push Up", "Squat"],
-  slugs: ["push-up", "squat"],
+  names: ["Push Up", "Squat", "Bend"],
+  slugs: ["push-up", "squat", "bend"],
   durations: ["1 Minutes", "3 Minutes", "5 Minutes", "7 Minutes"]
 })
 

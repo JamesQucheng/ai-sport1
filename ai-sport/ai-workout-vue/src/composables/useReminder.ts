@@ -79,7 +79,7 @@ export function useReminder() {
         // 如果在Service Worker环境中，可以通过postMessage通知主页面
         if ('serviceWorker' in navigator) {
           navigator.serviceWorker.ready.then(registration => {
-            registration.postMessage({
+            registration.active?.postMessage({
               type: 'NOTIFICATION_CLICKED',
               action: 'OPEN_WORKOUT'
             })

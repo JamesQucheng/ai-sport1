@@ -278,11 +278,12 @@
           <el-form-item label="运动类型" class="filter-item">
             <div class="filter-input-wrapper">
               <el-icon class="input-prefix-icon"><Filter /></el-icon>
-              <el-select v-model="filters.workoutType" placeholder="全部类型" clearable style="width: 140px" class="filter-select">
-                <el-option label="全部类型" value="" />
-                <el-option label="俯卧撑" value="push-up" />
-                <el-option label="深蹲" value="squat" />
-              </el-select>
+                <el-select v-model="filters.workoutType" placeholder="全部类型" clearable style="width: 140px" class="filter-select">
+                  <el-option label="全部类型" value="" />
+                  <el-option label="俯卧撑" value="push-up" />
+                  <el-option label="深蹲" value="squat" />
+                  <el-option label="弯腰" value="bend" />
+                </el-select>
             </div>
           </el-form-item>
           
@@ -394,7 +395,7 @@
             <div class="record-main">
               <div class="record-icon">
                 <span class="workout-emoji">{{ getWorkoutIcon(workout.workoutType) }}</span>
-                <div class="workout-type-badge">{{ workout.workoutType === 'push-up' ? '俯卧撑' : '深蹲' }}</div>
+                <div class="workout-type-badge">{{ workoutTypeLabels[workout.workoutType] || workout.workoutType }}</div>
               </div>
                
               <div class="record-content">
@@ -617,7 +618,14 @@ const selectedWorkout = ref<any>(null)
 // 运动类型图标映射
 const workoutIcons: Record<string, string> = {
   'push-up': '💪',
-  'squat': '🦵'
+  'squat': '🦵',
+  bend: '🤸'
+}
+
+const workoutTypeLabels: Record<string, string> = {
+  'push-up': '俯卧撑',
+  squat: '深蹲',
+  bend: '弯腰'
 }
 
 // 统计趋势计算函数

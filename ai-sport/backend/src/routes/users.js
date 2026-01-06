@@ -394,7 +394,7 @@ router.get('/:id/workouts', authenticate, requireOwnershipOrAdmin, [
     .withMessage('每页数量必须在1-50之间'),
   query('workoutType')
     .optional()
-    .isIn(['push-up', 'squat', 'plank', 'jumping-jack'])
+    .isIn(['push-up', 'squat', 'bend', 'plank', 'jumping-jack'])
     .withMessage('运动类型无效')
 ], async (req, res, next) => {
   try {

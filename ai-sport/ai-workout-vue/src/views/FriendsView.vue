@@ -702,7 +702,7 @@ const loadRecentInvitations = async () => {
   try {
     // 加载接收到的邀请
     const receivedResponse = await apiRequest('/invitations?type=received&status=pending')
-    let allInvitations = []
+    let allInvitations: any[] = []
     
     if (receivedResponse.status === 'success') {
       allInvitations = [...receivedResponse.data.invitations]
