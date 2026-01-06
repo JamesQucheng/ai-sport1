@@ -55,6 +55,29 @@ export class AudioHandler {
 export function useAudio() {
   const audioInstances = shallowRef<Map<string, AudioHandler>>(new Map())
   const isAudioEnabled = ref(true)
+
+  const speakText = async (text: string): Promise<void> => {
+    if (!isAudioEnabled.value) return
+
+    if (typeof window !== 'undefined' && 'speechSynthesis' in window) {
+      return new Promise<void>((resolve) => {
+        try {
+          const utterance = new SpeechSynthesisUtterance(text)
+          utterance.lang = 'zh-CN'
+          utterance.rate = 1
+          utterance.pitch = 1
+          utterance.onend = () => resolve()
+          utterance.onerror = () => resolve()
+
+          window.speechSynthesis.cancel()
+          window.speechSynthesis.speak(utterance)
+        } catch (error) {
+          console.warn('语音合成失败，使用静音回退', error)
+          resolve()
+        }
+      })
+    }
+  }
   
   const createAudio = (key: string, config: AudioConfig): AudioHandler => {
     if (audioInstances.value.has(key)) {
@@ -135,14 +158,25 @@ export function useAudio() {
   // 播放倒计时音频
   const playCountdownAudio = async (count: number): Promise<void> => {
     if (!isAudioEnabled.value) return
-    
+
     const keyMap: { [key: number]: string } = {
       3: 'count-3',
       2: 'count-2',
       1: 'count-1',
       0: 'start'
     }
-    
+
+    const textMap: { [key: number]: string } = {
+      3: '准备，倒计时三',
+      2: '倒计时二',
+      1: '倒计时一',
+      0: '开始运动'
+    }
+
+    if (textMap[count]) {
+      await speakText(textMap[count])
+    }
+
     if (keyMap[count]) {
       await playAudio(keyMap[count])
     }
@@ -151,24 +185,40 @@ export function useAudio() {
   // 播放动作指导音频
   const playActionAudio = async (action: 'up' | 'down'): Promise<void> => {
     if (!isAudioEnabled.value) return
+    await speakText(action === 'up' ? '向上发力' : '下沉保持稳定')
     await playAudio(action === 'up' ? 'go-up' : 'go-down')
   }
   
   // 播放计数音频
   const playCountAudio = async (): Promise<void> => {
     if (!isAudioEnabled.value) return
+    await speakText('完成一次，请继续保持节奏')
     await playAudio('count')
   }
   
   // 播放完成音频
   const playDoneAudio = async (): Promise<void> => {
     if (!isAudioEnabled.value) return
+    await speakText('训练完成，做得很好')
     await playAudio('done')
   }
   
   // 播放阶段指导音频
   const playStageAudio = async (stage: string): Promise<void> => {
     if (!isAudioEnabled.value) return
+    const stageTextMap: Record<string, string> = {
+      down: '缓慢下降',
+      up: '向上推起',
+      hold: '保持姿势',
+      ready: '准备开始',
+      squat: '下蹲',
+      stand: '起身',
+      bend: '前屈',
+    }
+
+    if (stageTextMap[stage]) {
+      await speakText(stageTextMap[stage])
+    }
     await playAudio(`stage_${stage}`)
   }
   

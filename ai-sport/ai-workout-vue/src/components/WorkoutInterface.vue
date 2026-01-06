@@ -530,6 +530,16 @@ const reloadUploadedVideo = async () => {
     return
   }
   await loadUploadedVideo(uploadedVideoUrl.value, uploadedVideoName.value)
+
+  // 上传后立即开始检测，保证用户能立刻看到叠加效果
+  if (aiDetection.isDetectorLoaded.value && videoReady.value) {
+    if (!isRunning.value) {
+      await resume()
+    } else {
+      await ensureVideoPlaying()
+      await aiDetection.startDetection()
+    }
+  }
 }
 
 // 更新邀请会话进度
