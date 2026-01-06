@@ -1,4 +1,14 @@
-AI运动平台|vue|express|mongoDB
+AI运动平台|FastAPI|MediaPipe|SQLite
+
+## 重构概述
+
+本次重构在保留旧版 Vue + Express 代码的同时，新增了**前后端分离的 HTML5 + FastAPI 技术栈**：
+
+- **前端**：`ai-sport/html-frontend/index.html` 使用原生 HTML5 + JavaScript + Canvas 获取摄像头数据并调用后端接口。
+- **后端**：`ai-sport/python-backend` 基于 FastAPI，集成 MediaPipe + OpenCV 进行姿态识别，SQLAlchemy + SQLite 写入训练记录，Pandas + Matplotlib 完成数据聚合与图表输出。
+- **数据通路**：前端每 2 秒推送一帧到 `/api/pose/analyze`，后端返回关键点、评分、动作计数并可写入数据库；`/api/analytics/chart.png` 直接输出趋势图供前端展示。
+
+启动方式与接口说明详见 `ai-sport/python-backend/README.md`。
 
 ## 系统概述
 
