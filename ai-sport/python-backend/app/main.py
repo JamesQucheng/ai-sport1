@@ -1,6 +1,8 @@
 from __future__ import annotations
 
 from datetime import datetime, timedelta
+import pathlib
+import sys
 from io import BytesIO
 from typing import List
 
@@ -10,9 +12,17 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import Response
 from sqlalchemy.orm import Session
 
-from . import models, schemas
-from .database import Base, engine, get_db
-from .services.pose import PoseEstimator
+if __package__ is None or __package__ == "":
+    # Allow running via `python app/main.py` by adding project root to sys.path
+    sys.path.append(str(pathlib.Path(__file__).resolve().parent.parent))
+    import app.models as models
+    import app.schemas as schemas
+    from app.database import Base, engine, get_db
+    from app.services.pose import PoseEstimator
+else:
+    from . import models, schemas
+    from .database import Base, engine, get_db
+    from .services.pose import PoseEstimator
 
 Base.metadata.create_all(bind=engine)
 
@@ -158,3 +168,9 @@ def analytics_chart(db: Session = Depends(get_db)):
     plt.savefig(buf, format="png")
     plt.close()
     return Response(content=buf.getvalue(), media_type="image/png")
+
+
+if __name__ == "__main__":
+    import uvicorn
+
+    uvicorn.run("app.main:app", host="0.0.0.0", port=8000, reload=True)

@@ -12,6 +12,16 @@ pip install -r requirements.txt
 uvicorn app.main:app --reload --host 0.0.0.0 --port 8000
 ```
 
+如果直接运行脚本，也可以：
+
+```bash
+# Windows 或 Linux 都通用
+python app/main.py
+
+# 或使用模块方式
+python -m app.main
+```
+
 服务启动后，使用静态服务器打开前端：
 
 ```bash
